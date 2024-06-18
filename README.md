@@ -1,4 +1,4 @@
-# twinny
+# Devdock
 
 Free and private AI extension for Visual Studio Code.
 

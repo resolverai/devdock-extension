@@ -13,11 +13,11 @@ import { v4 as uuidv4 } from 'uuid'
 export interface DevdockProvider {
   apiHostname: string
   apiPath: string
-  apiPort: number
+  apiPort?: number
   apiProtocol: string
   id: string
   label: string
-  modelName: string
+  modelName?: string
   provider: string
   type: string
   apiKey?: string
@@ -82,14 +82,14 @@ export class ProviderManager {
 
   getDefaultChatProvider() {
     return {
-      apiHostname: '0.0.0.0',
+      apiHostname: 'api.openai.com',
       apiPath: '/v1/chat/completions',
-      apiPort: 11434,
-      apiProtocol: 'http',
+      apiPort: 443,
+      apiProtocol: 'https',
       id: uuidv4(),
-      label: 'Ollama 7B Chat',
-      modelName: 'codellama:7b-instruct',
-      provider: ApiProviders.Ollama,
+      label: 'OpenAI',
+      modelName: 'gpt-4o',
+      provider: ApiProviders.LiteLLM,
       type: 'chat'
     } as DevdockProvider
   }

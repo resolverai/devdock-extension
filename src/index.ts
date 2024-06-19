@@ -23,7 +23,7 @@ import {
   EXTENSION_NAME,
   EVENT_NAME,
   WEBUI_TABS,
-  TWINNY_COMMAND_NAME
+  DEVDOCK_COMMAND_NAME
 } from './common/constants'
 import { TemplateProvider } from './extension/template-provider'
 import { ServerMessage } from './common/types'
@@ -32,9 +32,9 @@ import { getLineBreakCount } from './webview/utils'
 
 export async function activate(context: ExtensionContext) {
   setContext(context)
-  const config = workspace.getConfiguration('twinny')
+  const config = workspace.getConfiguration('devdock')
   const statusBar = window.createStatusBarItem(StatusBarAlignment.Right)
-  const templateDir = path.join(os.homedir(), '.twinny/templates') as string
+  const templateDir = path.join(os.homedir(), '.devdock/templates') as string
   const templateProvider = new TemplateProvider(templateDir)
   const fileInteractionCache = new FileInteractionCache()
 
@@ -53,154 +53,154 @@ export async function activate(context: ExtensionContext) {
       { pattern: '**' },
       completionProvider
     ),
-    commands.registerCommand(TWINNY_COMMAND_NAME.enable, () => {
+    commands.registerCommand(DEVDOCK_COMMAND_NAME.enable, () => {
       statusBar.show()
     }),
-    commands.registerCommand(TWINNY_COMMAND_NAME.disable, () => {
+    commands.registerCommand(DEVDOCK_COMMAND_NAME.disable, () => {
       statusBar.hide()
     }),
-    commands.registerCommand(TWINNY_COMMAND_NAME.explain, () => {
-      commands.executeCommand(TWINNY_COMMAND_NAME.focusSidebar)
+    commands.registerCommand(DEVDOCK_COMMAND_NAME.explain, () => {
+      commands.executeCommand(DEVDOCK_COMMAND_NAME.focusSidebar)
       delayExecution(() =>
         sidebarProvider.chatService?.streamTemplateCompletion('explain')
       )
     }),
-    commands.registerCommand(TWINNY_COMMAND_NAME.addTypes, () => {
-      commands.executeCommand(TWINNY_COMMAND_NAME.focusSidebar)
+    commands.registerCommand(DEVDOCK_COMMAND_NAME.addTypes, () => {
+      commands.executeCommand(DEVDOCK_COMMAND_NAME.focusSidebar)
       delayExecution(() =>
         sidebarProvider.chatService?.streamTemplateCompletion('add-types')
       )
     }),
-    commands.registerCommand(TWINNY_COMMAND_NAME.refactor, () => {
-      commands.executeCommand(TWINNY_COMMAND_NAME.focusSidebar)
+    commands.registerCommand(DEVDOCK_COMMAND_NAME.refactor, () => {
+      commands.executeCommand(DEVDOCK_COMMAND_NAME.focusSidebar)
       delayExecution(() =>
         sidebarProvider.chatService?.streamTemplateCompletion('refactor')
       )
     }),
-    commands.registerCommand(TWINNY_COMMAND_NAME.generateDocs, () => {
-      commands.executeCommand(TWINNY_COMMAND_NAME.focusSidebar)
+    commands.registerCommand(DEVDOCK_COMMAND_NAME.generateDocs, () => {
+      commands.executeCommand(DEVDOCK_COMMAND_NAME.focusSidebar)
       delayExecution(() =>
         sidebarProvider.chatService?.streamTemplateCompletion('generate-docs')
       )
     }),
-    commands.registerCommand(TWINNY_COMMAND_NAME.addTests, () => {
-      commands.executeCommand(TWINNY_COMMAND_NAME.focusSidebar)
+    commands.registerCommand(DEVDOCK_COMMAND_NAME.addTests, () => {
+      commands.executeCommand(DEVDOCK_COMMAND_NAME.focusSidebar)
       delayExecution(() =>
         sidebarProvider.chatService?.streamTemplateCompletion('add-tests')
       )
     }),
     commands.registerCommand(
-      TWINNY_COMMAND_NAME.templateCompletion,
+      DEVDOCK_COMMAND_NAME.templateCompletion,
       (template: string) => {
-        commands.executeCommand(TWINNY_COMMAND_NAME.focusSidebar)
+        commands.executeCommand(DEVDOCK_COMMAND_NAME.focusSidebar)
         delayExecution(() =>
           sidebarProvider.chatService?.streamTemplateCompletion(template)
         )
       }
     ),
-    commands.registerCommand(TWINNY_COMMAND_NAME.stopGeneration, () => {
+    commands.registerCommand(DEVDOCK_COMMAND_NAME.stopGeneration, () => {
       completionProvider.onError()
       sidebarProvider.destroyStream()
     }),
-    commands.registerCommand(TWINNY_COMMAND_NAME.templates, async () => {
+    commands.registerCommand(DEVDOCK_COMMAND_NAME.templates, async () => {
       await vscode.commands.executeCommand(
         'vscode.openFolder',
         vscode.Uri.file(templateDir),
         true
       )
     }),
-    commands.registerCommand(TWINNY_COMMAND_NAME.manageProviders, async () => {
+    commands.registerCommand(DEVDOCK_COMMAND_NAME.manageProviders, async () => {
       commands.executeCommand(
         'setContext',
-        EXTENSION_CONTEXT_NAME.twinnyManageProviders,
+        EXTENSION_CONTEXT_NAME.devdockManageProviders,
         true
       )
       sidebarProvider.view?.webview.postMessage({
-        type: EVENT_NAME.twinnySetTab,
+        type: EVENT_NAME.devdockSetTab,
         value: {
           data: WEBUI_TABS.providers
         }
       } as ServerMessage<string>)
     }),
-    commands.registerCommand(TWINNY_COMMAND_NAME.conversationHistory, async () => {
+    commands.registerCommand(DEVDOCK_COMMAND_NAME.conversationHistory, async () => {
       commands.executeCommand(
         'setContext',
-        EXTENSION_CONTEXT_NAME.twinnyConversationHistory,
+        EXTENSION_CONTEXT_NAME.devdockConversationHistory,
         true
       )
       sidebarProvider.view?.webview.postMessage({
-        type: EVENT_NAME.twinnySetTab,
+        type: EVENT_NAME.devdockSetTab,
         value: {
           data: WEBUI_TABS.history
         }
       } as ServerMessage<string>)
     }),
-    commands.registerCommand(TWINNY_COMMAND_NAME.manageTemplates, async () => {
+    commands.registerCommand(DEVDOCK_COMMAND_NAME.manageTemplates, async () => {
       commands.executeCommand(
         'setContext',
-        EXTENSION_CONTEXT_NAME.twinnyManageTemplates,
+        EXTENSION_CONTEXT_NAME.devdockManageTemplates,
         true
       )
       sidebarProvider.view?.webview.postMessage({
-        type: EVENT_NAME.twinnySetTab,
+        type: EVENT_NAME.devdockSetTab,
         value: {
           data: WEBUI_TABS.templates
         }
       } as ServerMessage<string>)
     }),
-    commands.registerCommand(TWINNY_COMMAND_NAME.hideBackButton, () => {
+    commands.registerCommand(DEVDOCK_COMMAND_NAME.hideBackButton, () => {
       commands.executeCommand(
         'setContext',
-        EXTENSION_CONTEXT_NAME.twinnyManageTemplates,
+        EXTENSION_CONTEXT_NAME.devdockManageTemplates,
         false
       )
       commands.executeCommand(
         'setContext',
-        EXTENSION_CONTEXT_NAME.twinnyConversationHistory,
+        EXTENSION_CONTEXT_NAME.devdockConversationHistory,
         false
       )
       commands.executeCommand(
         'setContext',
-        EXTENSION_CONTEXT_NAME.twinnyManageProviders,
+        EXTENSION_CONTEXT_NAME.devdockManageProviders,
         false
       )
     }),
-    commands.registerCommand(TWINNY_COMMAND_NAME.openChat, () => {
-      commands.executeCommand(TWINNY_COMMAND_NAME.hideBackButton)
+    commands.registerCommand(DEVDOCK_COMMAND_NAME.openChat, () => {
+      commands.executeCommand(DEVDOCK_COMMAND_NAME.hideBackButton)
       sidebarProvider.view?.webview.postMessage({
-        type: EVENT_NAME.twinnySetTab,
+        type: EVENT_NAME.devdockSetTab,
         value: {
           data: WEBUI_TABS.chat
         }
       } as ServerMessage<string>)
     }),
-    commands.registerCommand(TWINNY_COMMAND_NAME.settings, () => {
+    commands.registerCommand(DEVDOCK_COMMAND_NAME.settings, () => {
       vscode.commands.executeCommand(
         'workbench.action.openSettings',
         EXTENSION_NAME
       )
     }),
     commands.registerCommand(
-      TWINNY_COMMAND_NAME.sendTerminalText,
+      DEVDOCK_COMMAND_NAME.sendTerminalText,
       async (commitMessage: string) => {
         const terminal = await getTerminal()
         terminal?.sendText(getSanitizedCommitMessage(commitMessage), false)
       }
     ),
-    commands.registerCommand(TWINNY_COMMAND_NAME.getGitCommitMessage, () => {
-      commands.executeCommand(TWINNY_COMMAND_NAME.focusSidebar)
+    commands.registerCommand(DEVDOCK_COMMAND_NAME.getGitCommitMessage, () => {
+      commands.executeCommand(DEVDOCK_COMMAND_NAME.focusSidebar)
       sidebarProvider.conversationHistory?.resetConversation()
       delayExecution(() => sidebarProvider.getGitCommitMessage(), 400)
     }),
-    commands.registerCommand(TWINNY_COMMAND_NAME.newChat, () => {
+    commands.registerCommand(DEVDOCK_COMMAND_NAME.newChat, () => {
       sidebarProvider.conversationHistory?.resetConversation()
       sidebarProvider.view?.webview.postMessage({
-        type: EVENT_NAME.twinnyStopGeneration
+        type: EVENT_NAME.devdockStopGeneration
       } as ServerMessage<string>)
 
     }),
 
-    window.registerWebviewViewProvider('twinny.sidebar', sidebarProvider),
+    window.registerWebviewViewProvider('devdock.sidebar', sidebarProvider),
     statusBar
   )
 
@@ -243,7 +243,7 @@ export async function activate(context: ExtensionContext) {
 
   context.subscriptions.push(
     workspace.onDidChangeConfiguration((event) => {
-      if (!event.affectsConfiguration('twinny')) return
+      if (!event.affectsConfiguration('devdock')) return
       completionProvider.updateConfig()
     })
   )

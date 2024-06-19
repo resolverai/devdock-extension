@@ -9,7 +9,7 @@ import {
 import {
   WORKSPACE_STORAGE_KEY,
   EVENT_NAME,
-  TWINNY_COMMAND_NAME
+  DEVDOCK_COMMAND_NAME
 } from '../../common/constants'
 import { ChatService } from '../chat-service'
 import {
@@ -70,7 +70,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
       (event: vscode.TextEditorSelectionChangeEvent) => {
         const text = event.textEditor.document.getText(event.selections[0])
         webviewView.webview.postMessage({
-          type: EVENT_NAME.twinnyTextSelection,
+          type: EVENT_NAME.devdockTextSelection,
           value: {
             type: WORKSPACE_STORAGE_KEY.selection,
             completion: text
@@ -81,7 +81,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
 
     vscode.window.onDidChangeActiveColorTheme(() => {
       webviewView.webview.postMessage({
-        type: EVENT_NAME.twinnySendTheme,
+        type: EVENT_NAME.devdockSendTheme,
         value: {
           data: getTheme()
         }
@@ -91,26 +91,26 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
     webviewView.webview.onDidReceiveMessage(
       (message: ClientMessage<string | boolean> & ClientMessage<Message[]>) => {
         const eventHandlers = {
-          [EVENT_NAME.twinnyAcceptSolution]: this.acceptSolution,
-          [EVENT_NAME.twinnyChatMessage]: this.streamChatCompletion,
-          [EVENT_NAME.twinnyClickSuggestion]: this.clickSuggestion,
-          [EVENT_NAME.twinnyFetchOllamaModels]: this.fetchOllamaModels,
-          [EVENT_NAME.twinnyGlobalContext]: this.getGlobalContext,
-          [EVENT_NAME.twinnyListTemplates]: this.listTemplates,
-          [EVENT_NAME.twinnySetTab]: this.setTab,
-          [EVENT_NAME.twinnyNewDocument]: this.createNewUntitledDocument,
-          [EVENT_NAME.twinnyNotification]: this.sendNotification,
-          [EVENT_NAME.twinnySendLanguage]: this.getCurrentLanguage,
-          [EVENT_NAME.twinnySendTheme]: this.getTheme,
-          [EVENT_NAME.twinnySetGlobalContext]: this.setGlobalContext,
-          [EVENT_NAME.twinnySetWorkspaceContext]:
-            this.setTwinnyWorkspaceContext,
-          [EVENT_NAME.twinnyTextSelection]: this.getSelectedText,
-          [EVENT_NAME.twinnyWorkspaceContext]: this.getTwinnyWorkspaceContext,
-          [EVENT_NAME.twinnySetConfigValue]: this.setConfigurationValue,
-          [EVENT_NAME.twinnyGetConfigValue]: this.getConfigurationValue,
-          [EVENT_NAME.twinnyGetGitChanges]: this.getGitCommitMessage,
-          [EVENT_NAME.twinnyHideBackButton]: this.twinnyHideBackButton
+          [EVENT_NAME.devdockAcceptSolution]: this.acceptSolution,
+          [EVENT_NAME.devdockChatMessage]: this.streamChatCompletion,
+          [EVENT_NAME.devdockClickSuggestion]: this.clickSuggestion,
+          [EVENT_NAME.devdockFetchOllamaModels]: this.fetchOllamaModels,
+          [EVENT_NAME.devdockGlobalContext]: this.getGlobalContext,
+          [EVENT_NAME.devdockListTemplates]: this.listTemplates,
+          [EVENT_NAME.devdockSetTab]: this.setTab,
+          [EVENT_NAME.devdockNewDocument]: this.createNewUntitledDocument,
+          [EVENT_NAME.devdockNotification]: this.sendNotification,
+          [EVENT_NAME.devdockSendLanguage]: this.getCurrentLanguage,
+          [EVENT_NAME.devdockSendTheme]: this.getTheme,
+          [EVENT_NAME.devdockSetGlobalContext]: this.setGlobalContext,
+          [EVENT_NAME.devdockSetWorkspaceContext]:
+            this.setDevdockWorkspaceContext,
+          [EVENT_NAME.devdockTextSelection]: this.getSelectedText,
+          [EVENT_NAME.devdockWorkspaceContext]: this.getDevdockWorkspaceContext,
+          [EVENT_NAME.devdockSetConfigValue]: this.setConfigurationValue,
+          [EVENT_NAME.devdockGetConfigValue]: this.getConfigurationValue,
+          [EVENT_NAME.devdockGetGitChanges]: this.getGitCommitMessage,
+          [EVENT_NAME.devdockHideBackButton]: this.devdockHideBackButton
         }
         eventHandlers[message.type as string]?.(message)
       }
@@ -119,7 +119,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
 
   public setTab(tab: ClientMessage) {
     this.view?.webview.postMessage({
-      type: EVENT_NAME.twinnySetTab,
+      type: EVENT_NAME.devdockSetTab,
       value: {
         data: tab as string
       }
@@ -139,7 +139,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
       'commit-message',
       diff,
       (completion: string) => {
-        vscode.commands.executeCommand('twinny.sendTerminalText', completion)
+        vscode.commands.executeCommand('devdock.sendTerminalText', completion)
       },
       true
     )
@@ -147,9 +147,9 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
 
   public getConfigurationValue = (data: ClientMessage) => {
     if (!data.key) return
-    const config = vscode.workspace.getConfiguration('twinny')
+    const config = vscode.workspace.getConfiguration('devdock')
     this.view?.webview.postMessage({
-      type: EVENT_NAME.twinnyGetConfigValue,
+      type: EVENT_NAME.devdockGetConfigValue,
       value: {
         data: config.get(data.key as string),
         type: data.key
@@ -159,7 +159,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
 
   public setConfigurationValue = (data: ClientMessage) => {
     if (!data.key) return
-    const config = vscode.workspace.getConfiguration('twinny')
+    const config = vscode.workspace.getConfiguration('devdock')
     config.update(data.key, data.data, vscode.ConfigurationTarget.Global)
   }
 
@@ -170,7 +170,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
         return
       }
       this.view?.webview.postMessage({
-        type: EVENT_NAME.twinnyFetchOllamaModels,
+        type: EVENT_NAME.devdockFetchOllamaModels,
         value: {
           data: models
         }
@@ -183,7 +183,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
   public listTemplates = () => {
     const templates = this._templateProvider.listTemplates()
     this.view?.webview.postMessage({
-      type: EVENT_NAME.twinnyListTemplates,
+      type: EVENT_NAME.devdockListTemplates,
       value: {
         data: templates
       }
@@ -196,7 +196,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
 
   public clickSuggestion = (data: ClientMessage) => {
     vscode.commands.executeCommand(
-      'twinny.templateCompletion',
+      'devdock.templateCompletion',
       data.data as string
     )
   }
@@ -207,7 +207,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
 
   public getSelectedText = () => {
     this.view?.webview.postMessage({
-      type: EVENT_NAME.twinnyTextSelection,
+      type: EVENT_NAME.devdockTextSelection,
       value: {
         type: WORKSPACE_STORAGE_KEY.selection,
         completion: getTextSelection()
@@ -235,17 +235,17 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
 
   public getGlobalContext = (data: ClientMessage) => {
     const storedData = this._context?.globalState.get(
-      `${EVENT_NAME.twinnyGlobalContext}-${data.key}`
+      `${EVENT_NAME.devdockGlobalContext}-${data.key}`
     )
     this.view?.webview.postMessage({
-      type: `${EVENT_NAME.twinnyGlobalContext}-${data.key}`,
+      type: `${EVENT_NAME.devdockGlobalContext}-${data.key}`,
       value: storedData
     })
   }
 
   public getTheme = () => {
     this.view?.webview.postMessage({
-      type: EVENT_NAME.twinnySendTheme,
+      type: EVENT_NAME.devdockSendTheme,
       value: {
         data: getTheme()
       }
@@ -254,7 +254,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
 
   public getCurrentLanguage = () => {
     this.view?.webview.postMessage({
-      type: EVENT_NAME.twinnySendLanguage,
+      type: EVENT_NAME.devdockSendLanguage,
       value: {
         data: getLanguage()
       }
@@ -263,29 +263,29 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
 
   public setGlobalContext = (data: ClientMessage) => {
     this._context?.globalState.update(
-      `${EVENT_NAME.twinnyGlobalContext}-${data.key}`,
+      `${EVENT_NAME.devdockGlobalContext}-${data.key}`,
       data.data
     )
   }
 
-  public getTwinnyWorkspaceContext = (data: ClientMessage) => {
+  public getDevdockWorkspaceContext = (data: ClientMessage) => {
     const storedData = this._context?.workspaceState.get(
-      `${EVENT_NAME.twinnyWorkspaceContext}-${data.key}`
+      `${EVENT_NAME.devdockWorkspaceContext}-${data.key}`
     )
     this.view?.webview.postMessage({
-      type: `${EVENT_NAME.twinnyWorkspaceContext}-${data.key}`,
+      type: `${EVENT_NAME.devdockWorkspaceContext}-${data.key}`,
       value: storedData
     } as ServerMessage)
   }
 
-  public setTwinnyWorkspaceContext = <T>(data: ClientMessage<T>) => {
+  public setDevdockWorkspaceContext = <T>(data: ClientMessage<T>) => {
     const value = data.data
     this._context.workspaceState.update(
-      `${EVENT_NAME.twinnyWorkspaceContext}-${data.key}`,
+      `${EVENT_NAME.devdockWorkspaceContext}-${data.key}`,
       value
     )
     this.view?.webview.postMessage({
-      type: `${EVENT_NAME.twinnyWorkspaceContext}-${data.key}`,
+      type: `${EVENT_NAME.devdockWorkspaceContext}-${data.key}`,
       value
     })
   }
@@ -293,12 +293,12 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
   public destroyStream = () => {
     this.chatService?.destroyStream()
     this.view?.webview.postMessage({
-      type: EVENT_NAME.twinnyStopGeneration
+      type: EVENT_NAME.devdockStopGeneration
     })
   }
 
-  private twinnyHideBackButton() {
-    vscode.commands.executeCommand(TWINNY_COMMAND_NAME.hideBackButton)
+  private devdockHideBackButton() {
+    vscode.commands.executeCommand(DEVDOCK_COMMAND_NAME.hideBackButton)
   }
 
   private _getHtmlForWebview(webview: vscode.Webview) {

@@ -1,6 +1,6 @@
 {
-  "name": "twinny",
-  "displayName": "twinny - AI Code Completion and Chat",
+  "name": "devdock",
+  "displayName": "devdock - AI Code Completion and Chat",
   "description": "Locally hosted AI code completion plugin for vscode",
   "version": "3.11.39",
   "icon": "assets/icon.png",
@@ -11,7 +11,7 @@
     "localhost",
     "no-leaks",
     "private",
-    "twinny",
+    "devdock",
     "ai",
     "ollama",
     "llama",
@@ -27,7 +27,7 @@
     "vscode-extension"
   ],
   "repository": {
-    "url": "https://github.com/rjmacarthy/twinny"
+    "url": "https://github.com/rjmacarthy/devdock"
   },
   "license": "MIT",
   "publisher": "rjmacarthy",
@@ -35,7 +35,7 @@
     "vscode": "^1.84.0"
   },
   "bugs": {
-    "url": "https://github.com/rjmacarthy/twinny/issues"
+    "url": "https://github.com/rjmacarthy/devdock/issues"
   },
   "categories": [
     "Programming Languages",
@@ -61,145 +61,145 @@
       "editor/context": [
         {
           "when": "editorTextFocus",
-          "command": "twinny.explain"
+          "command": "devdock.explain"
         },
         {
           "when": "editorTextFocus",
-          "command": "twinny.refactor"
+          "command": "devdock.refactor"
         },
         {
           "when": "editorTextFocus",
-          "command": "twinny.addTypes"
+          "command": "devdock.addTypes"
         },
         {
           "when": "editorTextFocus",
-          "command": "twinny.addTests"
+          "command": "devdock.addTests"
         },
         {
           "when": "editorTextFocus",
-          "command": "twinny.generateDocs"
+          "command": "devdock.generateDocs"
         }
       ],
       "view/title": [
         {
-          "command": "twinny.openChat",
+          "command": "devdock.openChat",
           "group": "navigation@0",
-          "when": "view == twinny.sidebar && twinnyManageTemplates || view == twinny.sidebar && twinnyManageProviders || view == twinny.sidebar && twinnyConversationHistory "
+          "when": "view == devdock.sidebar && devdockManageTemplates || view == devdock.sidebar && devdockManageProviders || view == devdock.sidebar && devdockConversationHistory "
         },
         {
-          "command": "twinny.manageProviders",
+          "command": "devdock.manageProviders",
           "group": "navigation@1",
-          "when": "view == twinny.sidebar"
+          "when": "view == devdock.sidebar"
         },
         {
-          "command": "twinny.manageTemplates",
+          "command": "devdock.manageTemplates",
           "group": "navigation@2",
-          "when": "view == twinny.sidebar"
+          "when": "view == devdock.sidebar"
         },
         {
-          "command": "twinny.templates",
-          "when": "view == twinny.sidebar",
+          "command": "devdock.templates",
+          "when": "view == devdock.sidebar",
           "group": "navigation@3"
         },
         {
-          "command": "twinny.conversationHistory",
-          "when": "view == twinny.sidebar",
+          "command": "devdock.conversationHistory",
+          "when": "view == devdock.sidebar",
           "group": "navigation@4"
         },
         {
-          "command": "twinny.newChat",
-          "when": "view == twinny.sidebar",
+          "command": "devdock.newChat",
+          "when": "view == devdock.sidebar",
           "group": "navigation@5"
         },
         {
-          "command": "twinny.settings",
-          "when": "view == twinny.sidebar",
+          "command": "devdock.settings",
+          "when": "view == devdock.sidebar",
           "group": "navigation@6"
         }
       ]
     },
     "commands": [
       {
-        "command": "twinny.explain",
-        "title": "Twinny - Explain"
+        "command": "devdock.explain",
+        "title": "Devdock - Explain"
       },
       {
-        "command": "twinny.refactor",
-        "title": "Twinny - Refactor"
+        "command": "devdock.refactor",
+        "title": "Devdock - Refactor"
       },
       {
-        "command": "twinny.addTypes",
-        "title": "Twinny - Add types"
+        "command": "devdock.addTypes",
+        "title": "Devdock - Add types"
       },
       {
-        "command": "twinny.addTests",
-        "title": "Twinny - Write tests"
+        "command": "devdock.addTests",
+        "title": "Devdock - Write tests"
       },
       {
-        "command": "twinny.generateDocs",
-        "title": "Twinny - Generate docs"
+        "command": "devdock.generateDocs",
+        "title": "Devdock - Generate docs"
       },
       {
-        "command": "twinny.enable",
-        "shortTitle": "Enable twinny",
-        "title": "Enable twinny"
+        "command": "devdock.enable",
+        "shortTitle": "Enable devdock",
+        "title": "Enable devdock"
       },
       {
-        "command": "twinny.stopGeneration",
+        "command": "devdock.stopGeneration",
         "title": "Stop generation"
       },
       {
-        "command": "twinny.getGitCommitMessage",
+        "command": "devdock.getGitCommitMessage",
         "title": "Generate git commit message"
       },
       {
-        "command": "twinny.disable",
-        "title": "Disable twinny",
-        "shortTitle": "Disable twinny"
+        "command": "devdock.disable",
+        "title": "Disable devdock",
+        "shortTitle": "Disable devdock"
       },
       {
-        "command": "twinny.sidebar.focus",
-        "shortTitle": "Enable twinny sidebar",
-        "title": "Enable twinny sidebar"
+        "command": "devdock.sidebar.focus",
+        "shortTitle": "Enable devdock sidebar",
+        "title": "Enable devdock sidebar"
       },
       {
-        "command": "twinny.settings",
-        "shortTitle": "twinny settings",
-        "title": "Open twinny settings",
+        "command": "devdock.settings",
+        "shortTitle": "devdock settings",
+        "title": "Open devdock settings",
         "icon": "$(gear)"
       },
       {
-        "command": "twinny.conversationHistory",
-        "shortTitle": "twinny conversation history",
-        "title": "Open twinny conversation history",
+        "command": "devdock.conversationHistory",
+        "shortTitle": "devdock conversation history",
+        "title": "Open devdock conversation history",
         "icon": "$(history)"
       },
       {
-        "command": "twinny.newChat",
+        "command": "devdock.newChat",
         "shortTitle": "New chat",
         "title": "Start a new chat",
         "icon": "$(comment-discussion)"
       },
       {
-        "command": "twinny.templates",
-        "shortTitle": "Edit twinny templates",
-        "title": "Edit twinny templates",
+        "command": "devdock.templates",
+        "shortTitle": "Edit devdock templates",
+        "title": "Edit devdock templates",
         "icon": "$(pencil)"
       },
       {
-        "command": "twinny.manageTemplates",
-        "shortTitle": "Manage twinny templates",
-        "title": "Manage twinny templates",
+        "command": "devdock.manageTemplates",
+        "shortTitle": "Manage devdock templates",
+        "title": "Manage devdock templates",
         "icon": "$(files)"
       },
       {
-        "command": "twinny.manageProviders",
-        "shortTitle": "Manage twinny providers",
-        "title": "Manage twinny providers",
+        "command": "devdock.manageProviders",
+        "shortTitle": "Manage devdock providers",
+        "title": "Manage devdock providers",
         "icon": "$(plug)"
       },
       {
-        "command": "twinny.openChat",
+        "command": "devdock.openChat",
         "shortTitle": "Back to chat view",
         "title": "Back to chat view",
         "icon": "$(arrow-left)"
@@ -213,153 +213,153 @@
       },
       {
         "key": "CTRL+SHIFT+Z CTRL+SHIFT+T",
-        "command": "twinny.sidebar.focus",
+        "command": "devdock.sidebar.focus",
         "when": "editorTextFocus && !editorReadonly"
       },
       {
         "key": "CTRL+SHIFT+/",
-        "command": "twinny.stopGeneration",
-        "when": "twinnyGeneratingText"
+        "command": "devdock.stopGeneration",
+        "when": "devdockGeneratingText"
       },
       {
         "key": "CTRL+SHIFT+Z CTRL+SHIFT+G",
-        "command": "twinny.getGitCommitMessage"
+        "command": "devdock.getGitCommitMessage"
       }
     ],
     "viewsContainers": {
       "activitybar": [
         {
-          "id": "twinny-sidebar-view",
-          "title": "twinny",
-          "icon": "assets/twinny.svg"
+          "id": "devdock-sidebar-view",
+          "title": "devdock",
+          "icon": "assets/devdock.svg"
         }
       ]
     },
     "views": {
-      "twinny-sidebar-view": [
+      "devdock-sidebar-view": [
         {
           "type": "webview",
-          "id": "twinny.sidebar",
-          "name": "twinny",
-          "icon": "assets/twinny.svg",
-          "contextualTitle": "twinny"
+          "id": "devdock.sidebar",
+          "name": "devdock",
+          "icon": "assets/devdock.svg",
+          "contextualTitle": "devdock"
         }
       ]
     },
     "configuration": {
-      "title": "twinny",
+      "title": "devdock",
       "properties": {
-        "twinny.enabled": {
+        "devdock.enabled": {
           "order": 0,
           "type": "boolean",
           "default": true,
-          "description": "Activates or deactivates the Twinny extension."
+          "description": "Activates or deactivates the Devdock extension."
         },
-        "twinny.autoSuggestEnabled": {
+        "devdock.autoSuggestEnabled": {
           "order": 1,
           "type": "boolean",
           "default": true,
           "description": "Enable automatic completion suggestions, manual trigger (default shortcut Alt+\\)."
         },
-        "twinny.contextLength": {
+        "devdock.contextLength": {
           "order": 2,
           "type": "number",
           "default": 100,
           "description": "Defines the number of lines before and after the current line to include in FIM prompts.",
           "required": true
         },
-        "twinny.debounceWait": {
+        "devdock.debounceWait": {
           "order": 3,
           "type": "number",
           "default": 300,
           "description": "Delay in milliseconds before triggering the next completion.",
           "required": true
         },
-        "twinny.temperature": {
+        "devdock.temperature": {
           "order": 4,
           "type": "number",
           "default": 0.2,
           "description": "Sets the model's creativity level (temperature) for generating completions.",
           "required": true
         },
-        "twinny.multilineCompletionsEnabled": {
+        "devdock.multilineCompletionsEnabled": {
           "order": 5,
           "type": "boolean",
           "default": true,
           "description": "Experimental feature: enables the generation of multi-line completions."
         },
-        "twinny.maxLines": {
+        "devdock.maxLines": {
           "dependencies": {
-            "twinny.multilineCompletionsEnabled": true
+            "devdock.multilineCompletionsEnabled": true
           },
           "order": 6,
           "type": "number",
           "default": 30,
           "description": "Maximum number of lines to use for multi line completions. Applicable only when multilineCompletionsEnabled is enabled."
         },
-        "twinny.fileContextEnabled": {
+        "devdock.fileContextEnabled": {
           "order": 8,
           "type": "boolean",
           "default": false,
           "description": "Enables scanning of neighbouring documents to enhance completion prompts. (Experimental)"
         },
-        "twinny.completionCacheEnabled": {
+        "devdock.completionCacheEnabled": {
           "order": 9,
           "type": "boolean",
           "default": false,
           "description": "Caches FIM completions for identical prompts to enhance performance."
         },
-        "twinny.numPredictChat": {
+        "devdock.numPredictChat": {
           "order": 10,
           "type": "number",
           "default": 512,
           "description": "Maximum token limit for chat completions.",
           "required": true
         },
-        "twinny.numPredictFim": {
+        "devdock.numPredictFim": {
           "order": 11,
           "type": "number",
           "default": 512,
-          "description": "Maximum token limit for FIM completions. Set to -1 for no limit. Twinny should stop at logical line breaks.",
+          "description": "Maximum token limit for FIM completions. Set to -1 for no limit. Devdock should stop at logical line breaks.",
           "required": true
         },
-        "twinny.enableSubsequentCompletions": {
+        "devdock.enableSubsequentCompletions": {
           "order": 12,
           "type": "boolean",
           "default": true,
-          "description": "Enable this setting to allow twinny to keep making subsequent completion requests to the API after the last completion request was accepted."
+          "description": "Enable this setting to allow devdock to keep making subsequent completion requests to the API after the last completion request was accepted."
         },
-        "twinny.ollamaHostname": {
+        "devdock.ollamaHostname": {
           "order": 13,
           "type": "string",
           "default": "0.0.0.0",
           "description": "Hostname for Ollama API.",
           "required": true
         },
-        "twinny.ollamaApiPort": {
+        "devdock.ollamaApiPort": {
           "order": 14,
           "type": "number",
           "default": 11434,
           "description": "The API port usually `11434`",
           "required": false
         },
-        "twinny.keepAlive": {
+        "devdock.keepAlive": {
           "order": 15,
           "type": "string",
           "default": "5m",
           "description": "Keep models in memory by making requests with keep_alive=-1. Applicable only for Ollama API."
         },
-        "twinny.ollamaUseTls": {
+        "devdock.ollamaUseTls": {
           "order": 25,
           "type": "boolean",
           "default": false,
           "description": "Enables TLS encryption Ollama API connections."
         },
-        "twinny.enableLogging": {
+        "devdock.enableLogging": {
           "order": 26,
           "type": "boolean",
           "default": true,
-          "description": "Enable twinny debug mode"
+          "description": "Enable devdock debug mode"
         }
       }
     }
@@ -411,6 +411,7 @@
     "@types/react": "^18.2.46",
     "@vscode/codicons": "^0.0.35",
     "@vscode/webview-ui-toolkit": "^1.4.0",
+    "@web3auth/web3auth": "^2.1.3",
     "async-lock": "^1.4.1",
     "classnames": "^2.5.1",
     "handlebars": "^4.7.8",

@@ -19,7 +19,7 @@ export const Suggestions = ({ isDisabled }: { isDisabled?: boolean }) => {
     if (isDisabled) return
 
     global.vscode.postMessage({
-      type: EVENT_NAME.twinnyClickSuggestion,
+      type: EVENT_NAME.devdockClickSuggestion,
       data: message
     })
   }

@@ -52,11 +52,11 @@ import { CompletionFormatter } from '../completion-formatter'
 import { FileInteractionCache } from '../file-interaction'
 import { getLineBreakCount } from '../../webview/utils'
 import { TemplateProvider } from '../template-provider'
-import { TwinnyProvider } from '../provider-manager'
+import { DevdockProvider } from '../provider-manager'
 import { getNodeAtPosition, getParser } from '../parser-utils'
 
 export class CompletionProvider implements InlineCompletionItemProvider {
-  private _config = workspace.getConfiguration('twinny')
+  private _config = workspace.getConfiguration('devdock')
   private _abortController: AbortController | null
   private _acceptedLastCompletion = false
   private _completionCacheEnabled = this._config.get(
@@ -163,7 +163,7 @@ export class CompletionProvider implements InlineCompletionItemProvider {
     this._position = position
     this._nonce = this._nonce + 1
     this._statusBar.text = '$(loading~spin)'
-    this._statusBar.command = 'twinny.stopGeneration'
+    this._statusBar.command = 'devdock.stopGeneration'
 
     this._parser = await getParser(document.uri.fsPath)
     this._nodeAtPosition = getNodeAtPosition(
@@ -184,7 +184,7 @@ export class CompletionProvider implements InlineCompletionItemProvider {
 
     return new Promise<ResolvedInlineCompletion>((resolve, reject) => {
       this._debouncer = setTimeout(() => {
-        this._lock.acquire('twinny.completion', async () => {
+        this._lock.acquire('devdock.completion', async () => {
           const provider = this.getProvider()
           if (!provider) return
           const request = this.buildStreamRequest(prompt, provider)
@@ -211,7 +211,7 @@ export class CompletionProvider implements InlineCompletionItemProvider {
     })
   }
 
-  private buildStreamRequest(prompt: string, provider: TwinnyProvider) {
+  private buildStreamRequest(prompt: string, provider: DevdockProvider) {
     const body = createStreamRequestBodyFim(provider.provider, prompt, {
       model: provider.modelName,
       numPredictFim: this._numPredictFim,
@@ -472,7 +472,7 @@ export class CompletionProvider implements InlineCompletionItemProvider {
   }
 
   private getProvider = () => {
-    return this._extensionContext.globalState.get<TwinnyProvider>(
+    return this._extensionContext.globalState.get<DevdockProvider>(
       ACTIVE_FIM_PROVIDER_STORAGE_KEY
     )
   }
@@ -490,7 +490,7 @@ export class CompletionProvider implements InlineCompletionItemProvider {
   private logCompletion(formattedCompletion: string) {
     this._logger.log(
       `
-      *** Twinny completion triggered for file: ${this._document?.uri} ***
+      *** Devdock completion triggered for file: ${this._document?.uri} ***
       Original completion: ${this._completion}
       Formatted completion: ${formattedCompletion}
       Max Lines: ${this._maxLines}
@@ -529,7 +529,7 @@ export class CompletionProvider implements InlineCompletionItemProvider {
   }
 
   public updateConfig() {
-    this._config = workspace.getConfiguration('twinny')
+    this._config = workspace.getConfiguration('devdock')
     this._completionCacheEnabled = this._config.get(
       'completionCacheEnabled'
     ) as boolean

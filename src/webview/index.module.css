@@ -223,11 +223,11 @@ pre code {
   margin-top: 20px;
 }
 
-.twinnyForm {
+.devdockForm {
   width: 100%;
 }
 
-.twinnyForm div {
+.devdockForm div {
   margin-bottom: 10px;
   display: flex;
   flex-direction: column;

@@ -17,7 +17,7 @@ export const Main = () => {
 
   const handler = (event: MessageEvent) => {
     const message: ServerMessage<string | undefined> = event.data
-    if (message?.type === EVENT_NAME.twinnySetTab) {
+    if (message?.type === EVENT_NAME.devdockSetTab) {
       setTab(message?.value.data)
     }
     return () => window.removeEventListener('message', handler)

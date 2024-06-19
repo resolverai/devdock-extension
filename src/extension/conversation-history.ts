@@ -9,7 +9,7 @@ import {
 } from '../common/types'
 import { v4 as uuidv4 } from 'uuid'
 import { createStreamRequestBody } from './provider-options'
-import { TwinnyProvider } from './provider-manager'
+import { DevdockProvider } from './provider-manager'
 import { streamResponse } from './stream'
 import { getChatDataFromProvider } from './utils'
 import {
@@ -25,7 +25,7 @@ type Conversations = Record<string, Conversation> | undefined
 export class ConversationHistory {
   private _context: ExtensionContext
   private _webviewView: WebviewView
-  private _config = workspace.getConfiguration('twinny')
+  private _config = workspace.getConfiguration('devdock')
   private _keepAlive = this._config.get('keepAlive') as string | number
   private _temperature = this._config.get('temperature') as number
   private _title = ''
@@ -100,7 +100,7 @@ export class ConversationHistory {
   }
 
   private getProvider = () => {
-    return this._context?.globalState.get<TwinnyProvider>(
+    return this._context?.globalState.get<DevdockProvider>(
       ACTIVE_CHAT_PROVIDER_STORAGE_KEY
     )
   }

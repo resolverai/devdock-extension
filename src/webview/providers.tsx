@@ -11,7 +11,7 @@ import {
 import { ApiProviders } from '../common/types'
 
 import styles from './providers.module.css'
-import { TwinnyProvider } from '../extension/provider-manager'
+import { DevdockProvider } from '../extension/provider-manager'
 import {
   DEFAULT_PROVIDER_FORM_VALUES,
   FIM_TEMPLATE_FORMAT
@@ -20,7 +20,7 @@ import { ModelSelect } from './model-select'
 
 export const Providers = () => {
   const [showForm, setShowForm] = React.useState(false)
-  const [provider, setProvider] = React.useState<TwinnyProvider | undefined>()
+  const [provider, setProvider] = React.useState<DevdockProvider | undefined>()
   const { models } = useOllamaModels()
   const hasOllamaModels = !!models?.length
   const { updateProvider } = useProviders()
@@ -36,16 +36,16 @@ export const Providers = () => {
     setShowForm(true)
   }
 
-  const handleEdit = (provider: TwinnyProvider) => {
+  const handleEdit = (provider: DevdockProvider) => {
     setProvider(provider)
     setShowForm(true)
   }
 
-  const handleDelete = (provider: TwinnyProvider) => {
+  const handleDelete = (provider: DevdockProvider) => {
     removeProvider(provider)
   }
 
-  const handleCopy = (provider: TwinnyProvider) => {
+  const handleCopy = (provider: DevdockProvider) => {
     copyProvider(provider)
   }
 
@@ -53,14 +53,14 @@ export const Providers = () => {
     resetProviders()
   }
 
-  const handleSetModel = (provider: TwinnyProvider, model: string) => {
+  const handleSetModel = (provider: DevdockProvider, model: string) => {
     updateProvider({
       ...provider,
       modelName: model
     })
   }
 
-  const handleChange = (provider: TwinnyProvider, e: unknown) => {
+  const handleChange = (provider: DevdockProvider, e: unknown) => {
     const event = e as unknown as React.ChangeEvent<HTMLInputElement>
     const { value } = event.target
     handleSetModel(provider, value)
@@ -179,14 +179,14 @@ export const Providers = () => {
 
 interface ProviderFormProps {
   onClose: () => void
-  provider?: TwinnyProvider
+  provider?: DevdockProvider
 }
 
 function ProviderForm({ onClose, provider }: ProviderFormProps) {
   const isEditing = provider !== undefined
   const { models } = useOllamaModels()
   const { saveProvider, updateProvider } = useProviders()
-  const [formState, setFormState] = React.useState<TwinnyProvider>(
+  const [formState, setFormState] = React.useState<DevdockProvider>(
     provider || DEFAULT_PROVIDER_FORM_VALUES
   )
 

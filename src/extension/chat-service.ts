@@ -29,11 +29,11 @@ import { TemplateProvider } from './template-provider'
 import { streamResponse } from './stream'
 import { createStreamRequestBody } from './provider-options'
 import { kebabToSentence } from '../webview/utils'
-import { TwinnyProvider } from './provider-manager'
+import { DevdockProvider } from './provider-manager'
 import { ConversationHistory } from './conversation-history'
 
 export class ChatService {
-  private _config = workspace.getConfiguration('twinny')
+  private _config = workspace.getConfiguration('devdock')
   private _completion = ''
   private _controller?: AbortController
   private _extensionContext?: ExtensionContext
@@ -59,7 +59,7 @@ export class ChatService {
     this._extensionContext = extensionContext
     this._conversationHistory = conversationHistory
     workspace.onDidChangeConfiguration((event) => {
-      if (!event.affectsConfiguration('twinny')) {
+      if (!event.affectsConfiguration('devdock')) {
         return
       }
       this.updateConfig()
@@ -67,7 +67,7 @@ export class ChatService {
   }
 
   private getProvider = () => {
-    const provider = this._extensionContext?.globalState.get<TwinnyProvider>(
+    const provider = this._extensionContext?.globalState.get<DevdockProvider>(
       ACTIVE_CHAT_PROVIDER_STORAGE_KEY
     )
     return provider
@@ -110,10 +110,11 @@ export class ChatService {
 
     try {
       const data = getChatDataFromProvider(provider.provider, streamResponse)
+      console.log(provider)
       this._completion = this._completion + data
       if (onEnd) return
       this._view?.webview.postMessage({
-        type: EVENT_NAME.twinnyOnCompletion,
+        type: EVENT_NAME.devdockOnCompletion,
         value: {
           completion: this._completion.trimStart(),
           data: getLanguage(),
@@ -130,18 +131,18 @@ export class ChatService {
     this._statusBar.text = '🤖'
     commands.executeCommand(
       'setContext',
-      EXTENSION_CONTEXT_NAME.twinnyGeneratingText,
+      EXTENSION_CONTEXT_NAME.devdockGeneratingText,
       false
     )
     if (onEnd) {
       onEnd(this._completion)
       this._view?.webview.postMessage({
-        type: EVENT_NAME.twinnyOnEnd
+        type: EVENT_NAME.devdockOnEnd
       } as ServerMessage)
       return
     }
     this._view?.webview.postMessage({
-      type: EVENT_NAME.twinnyOnEnd,
+      type: EVENT_NAME.devdockOnEnd,
       value: {
         completion: this._completion.trimStart(),
         data: getLanguage(),
@@ -152,7 +153,7 @@ export class ChatService {
 
   private onStreamError = (error: Error) => {
     this._view?.webview.postMessage({
-      type: EVENT_NAME.twinnyOnEnd,
+      type: EVENT_NAME.devdockOnEnd,
       value: {
         error: true,
         errorMessage: error.message
@@ -164,11 +165,11 @@ export class ChatService {
     this._controller = controller
     commands.executeCommand(
       'setContext',
-      EXTENSION_CONTEXT_NAME.twinnyGeneratingText,
+      EXTENSION_CONTEXT_NAME.devdockGeneratingText,
       true
     )
     this._view?.webview.onDidReceiveMessage((data: { type: string }) => {
-      if (data.type === EVENT_NAME.twinnyStopGeneration) {
+      if (data.type === EVENT_NAME.devdockStopGeneration) {
         this._controller?.abort()
       }
     })
@@ -179,11 +180,11 @@ export class ChatService {
     this._statusBar.text = '🤖'
     commands.executeCommand(
       'setContext',
-      EXTENSION_CONTEXT_NAME.twinnyGeneratingText,
+      EXTENSION_CONTEXT_NAME.devdockGeneratingText,
       true
     )
     this._view?.webview.postMessage({
-      type: EVENT_NAME.twinnyOnEnd,
+      type: EVENT_NAME.devdockOnEnd,
       value: {
         completion: this._completion.trimStart(),
         data: getLanguage(),
@@ -233,7 +234,7 @@ export class ChatService {
 
   private sendEditorLanguage = () => {
     this._view?.webview.postMessage({
-      type: EVENT_NAME.twinnySendLanguage,
+      type: EVENT_NAME.devdockSendLanguage,
       value: {
         data: getLanguage()
       }
@@ -242,7 +243,7 @@ export class ChatService {
 
   private focusChatTab = () => {
     this._view?.webview.postMessage({
-      type: EVENT_NAME.twinnySetTab,
+      type: EVENT_NAME.devdockSetTab,
       value: {
         data: WEBUI_TABS.chat
       }
@@ -301,7 +302,7 @@ export class ChatService {
     if (!skipMessage) {
       this.focusChatTab()
       this._view?.webview.postMessage({
-        type: EVENT_NAME.twinnyOnLoading
+        type: EVENT_NAME.devdockOnLoading
       })
       this._view?.webview.postMessage({
         type: EVENT_NAME.twinngAddMessage,
@@ -333,7 +334,7 @@ export class ChatService {
   }
 
   private updateConfig() {
-    this._config = workspace.getConfiguration('twinny')
+    this._config = workspace.getConfiguration('devdock')
     this._temperature = this._config.get('temperature') as number
     this._keepAlive = this._config.get('keepAlive') as string | number
   }

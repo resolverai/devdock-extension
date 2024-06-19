@@ -14,7 +14,7 @@ import {
   ServerMessage,
   ThemeType
 } from '../common/types'
-import { TwinnyProvider } from '../extension/provider-manager'
+import { DevdockProvider } from '../extension/provider-manager'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const global = globalThis as any
@@ -23,7 +23,7 @@ export const useSelection = (onSelect?: () => void) => {
   const [selection, setSelection] = useState('')
   const handler = (event: MessageEvent) => {
     const message: ServerMessage = event.data
-    if (message?.type === EVENT_NAME.twinnyTextSelection) {
+    if (message?.type === EVENT_NAME.devdockTextSelection) {
       setSelection(message?.value.completion.trim())
       onSelect?.()
     }
@@ -32,7 +32,7 @@ export const useSelection = (onSelect?: () => void) => {
   useEffect(() => {
     window.addEventListener('message', handler)
     global.vscode.postMessage({
-      type: EVENT_NAME.twinnyTextSelection
+      type: EVENT_NAME.devdockTextSelection
     })
     return () => window.removeEventListener('message', handler)
   }, [])
@@ -45,7 +45,7 @@ export const useGlobalContext = <T>(key: string) => {
 
   const handler = (event: MessageEvent) => {
     const message: ServerMessage = event.data
-    if (message?.type === `${EVENT_NAME.twinnyGlobalContext}-${key}`) {
+    if (message?.type === `${EVENT_NAME.devdockGlobalContext}-${key}`) {
       setContext(event.data.value)
     }
   }
@@ -53,7 +53,7 @@ export const useGlobalContext = <T>(key: string) => {
   useEffect(() => {
     window.addEventListener('message', handler)
     global.vscode.postMessage({
-      type: EVENT_NAME.twinnyGlobalContext,
+      type: EVENT_NAME.devdockGlobalContext,
       key
     })
 
@@ -68,7 +68,7 @@ export const useWorkSpaceContext = <T>(key: string) => {
 
   const handler = (event: MessageEvent) => {
     const message: ServerMessage = event.data
-    if (message?.type === `${EVENT_NAME.twinnyWorkspaceContext}-${key}`) {
+    if (message?.type === `${EVENT_NAME.devdockWorkspaceContext}-${key}`) {
       setContext(event.data.value)
     }
   }
@@ -76,7 +76,7 @@ export const useWorkSpaceContext = <T>(key: string) => {
   useEffect(() => {
     window.addEventListener('message', handler)
     global.vscode.postMessage({
-      type: EVENT_NAME.twinnyWorkspaceContext,
+      type: EVENT_NAME.devdockWorkspaceContext,
       key
     })
 
@@ -90,14 +90,14 @@ export const useTheme = () => {
   const [theme, setTheme] = useState<ThemeType | undefined>()
   const handler = (event: MessageEvent) => {
     const message: ServerMessage<ThemeType> = event.data
-    if (message?.type === EVENT_NAME.twinnySendTheme) {
+    if (message?.type === EVENT_NAME.devdockSendTheme) {
       setTheme(message?.value.data)
     }
     return () => window.removeEventListener('message', handler)
   }
   useEffect(() => {
     global.vscode.postMessage({
-      type: EVENT_NAME.twinnySendTheme
+      type: EVENT_NAME.devdockSendTheme
     })
     window.addEventListener('message', handler)
     return () => window.removeEventListener('message', handler)
@@ -109,14 +109,14 @@ export const useLanguage = (): LanguageType | undefined => {
   const [language, setLanguage] = useState<LanguageType | undefined>()
   const handler = (event: MessageEvent) => {
     const message: ServerMessage = event.data
-    if (message?.type === EVENT_NAME.twinnySendLanguage) {
+    if (message?.type === EVENT_NAME.devdockSendLanguage) {
       setLanguage(message?.value.data)
     }
     return () => window.removeEventListener('message', handler)
   }
   useEffect(() => {
     global.vscode.postMessage({
-      type: EVENT_NAME.twinnySendLanguage
+      type: EVENT_NAME.devdockSendLanguage
     })
     window.addEventListener('message', handler)
     return () => window.removeEventListener('message', handler)
@@ -128,7 +128,7 @@ export const useTemplates = () => {
   const [templates, setTemplates] = useState<string[]>()
   const handler = (event: MessageEvent) => {
     const message: ServerMessage<string[]> = event.data
-    if (message?.type === EVENT_NAME.twinnyListTemplates) {
+    if (message?.type === EVENT_NAME.devdockListTemplates) {
       setTemplates(message?.value.data)
     }
     return () => window.removeEventListener('message', handler)
@@ -136,7 +136,7 @@ export const useTemplates = () => {
 
   const saveTemplates = (templates: string[]) => {
     global.vscode.postMessage({
-      type: EVENT_NAME.twinnySetWorkspaceContext,
+      type: EVENT_NAME.devdockSetWorkspaceContext,
       key: WORKSPACE_STORAGE_KEY.selectedTemplates,
       data: templates
     } as ClientMessage<string[]>)
@@ -144,7 +144,7 @@ export const useTemplates = () => {
 
   useEffect(() => {
     global.vscode.postMessage({
-      type: EVENT_NAME.twinnyListTemplates
+      type: EVENT_NAME.devdockListTemplates
     })
     window.addEventListener('message', handler)
     return () => window.removeEventListener('message', handler)
@@ -153,86 +153,86 @@ export const useTemplates = () => {
 }
 
 export const useProviders = () => {
-  const [providers, setProviders] = useState<Record<string, TwinnyProvider>>({})
-  const [chatProvider, setChatProvider] = useState<TwinnyProvider>()
-  const [fimProvider, setFimProvider] = useState<TwinnyProvider>()
+  const [providers, setProviders] = useState<Record<string, DevdockProvider>>({})
+  const [chatProvider, setChatProvider] = useState<DevdockProvider>()
+  const [fimProvider, setFimProvider] = useState<DevdockProvider>()
   const handler = (event: MessageEvent) => {
     const message: ServerMessage<
-      Record<string, TwinnyProvider> | TwinnyProvider
+      Record<string, DevdockProvider> | DevdockProvider
     > = event.data
     if (message?.type === PROVIDER_EVENT_NAME.getAllProviders) {
       if (message.value.data) {
-        const providers = message.value.data as Record<string, TwinnyProvider>
+        const providers = message.value.data as Record<string, DevdockProvider>
         setProviders(providers)
       }
     }
     if (message?.type === PROVIDER_EVENT_NAME.getActiveChatProvider) {
       if (message.value.data) {
-        const provider = message.value.data as TwinnyProvider
+        const provider = message.value.data as DevdockProvider
         setChatProvider(provider)
       }
     }
     if (message?.type === PROVIDER_EVENT_NAME.getActiveFimProvider) {
       if (message.value.data) {
-        const provider = message.value.data as TwinnyProvider
+        const provider = message.value.data as DevdockProvider
         setFimProvider(provider)
       }
     }
     return () => window.removeEventListener('message', handler)
   }
 
-  const saveProvider = (provider: TwinnyProvider) => {
+  const saveProvider = (provider: DevdockProvider) => {
     global.vscode.postMessage({
       type: PROVIDER_EVENT_NAME.addProvider,
       data: provider
-    } as ClientMessage<TwinnyProvider>)
+    } as ClientMessage<DevdockProvider>)
   }
 
-  const copyProvider = (provider: TwinnyProvider) => {
+  const copyProvider = (provider: DevdockProvider) => {
     global.vscode.postMessage({
       type: PROVIDER_EVENT_NAME.copyProvider,
       data: provider
-    } as ClientMessage<TwinnyProvider>)
+    } as ClientMessage<DevdockProvider>)
   }
 
-  const updateProvider = (provider: TwinnyProvider) => {
+  const updateProvider = (provider: DevdockProvider) => {
     global.vscode.postMessage({
       type: PROVIDER_EVENT_NAME.updateProvider,
       data: provider
-    } as ClientMessage<TwinnyProvider>)
+    } as ClientMessage<DevdockProvider>)
   }
 
-  const removeProvider = (provider: TwinnyProvider) => {
+  const removeProvider = (provider: DevdockProvider) => {
     global.vscode.postMessage({
       type: PROVIDER_EVENT_NAME.removeProvider,
       data: provider
-    } as ClientMessage<TwinnyProvider>)
+    } as ClientMessage<DevdockProvider>)
   }
 
-  const setActiveFimProvider = (provider: TwinnyProvider) => {
+  const setActiveFimProvider = (provider: DevdockProvider) => {
     global.vscode.postMessage({
       type: PROVIDER_EVENT_NAME.setActiveFimProvider,
       data: provider
-    } as ClientMessage<TwinnyProvider>)
+    } as ClientMessage<DevdockProvider>)
   }
 
-  const setActiveChatProvider = (provider: TwinnyProvider) => {
+  const setActiveChatProvider = (provider: DevdockProvider) => {
     global.vscode.postMessage({
       type: PROVIDER_EVENT_NAME.setActiveChatProvider,
       data: provider
-    } as ClientMessage<TwinnyProvider>)
+    } as ClientMessage<DevdockProvider>)
   }
 
   const getFimProvidersByType = (type: string) => {
     return Object.values(providers).filter(
       (provider) => provider.type === type
-    ) as TwinnyProvider[]
+    ) as DevdockProvider[]
   }
 
   const resetProviders = () => {
     global.vscode.postMessage({
       type: PROVIDER_EVENT_NAME.resetProvidersToDefaults
-    } as ClientMessage<TwinnyProvider>)
+    } as ClientMessage<DevdockProvider>)
   }
 
   useEffect(() => {
@@ -272,7 +272,7 @@ export const useConfigurationSetting = (key: string) => {
   const handler = (event: MessageEvent) => {
     const message: ServerMessage<string | boolean | number> = event.data
     if (
-      message?.type === EVENT_NAME.twinnyGetConfigValue &&
+      message?.type === EVENT_NAME.devdockGetConfigValue &&
       message.value.type === key
     ) {
       setConfigurationSettings(message?.value.data)
@@ -281,7 +281,7 @@ export const useConfigurationSetting = (key: string) => {
 
   useEffect(() => {
     global.vscode.postMessage({
-      type: EVENT_NAME.twinnyGetConfigValue,
+      type: EVENT_NAME.devdockGetConfigValue,
       key
     })
     window.addEventListener('message', handler)
@@ -372,7 +372,7 @@ export const useOllamaModels = () => {
   const [models, setModels] = useState<ApiModel[] | undefined>([])
   const handler = (event: MessageEvent) => {
     const message: ServerMessage<ApiModel[]> = event.data
-    if (message?.type === EVENT_NAME.twinnyFetchOllamaModels) {
+    if (message?.type === EVENT_NAME.devdockFetchOllamaModels) {
       setModels(message?.value.data)
     }
     return () => window.removeEventListener('message', handler)
@@ -380,7 +380,7 @@ export const useOllamaModels = () => {
 
   useEffect(() => {
     global.vscode.postMessage({
-      type: EVENT_NAME.twinnyFetchOllamaModels
+      type: EVENT_NAME.devdockFetchOllamaModels
     })
     window.addEventListener('message', handler)
     return () => window.removeEventListener('message', handler)

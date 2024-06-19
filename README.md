@@ -11,21 +11,21 @@ Free and private AI extension for Visual Studio Code.
 
 ## 🚀 Getting Started
 
-Visit the [quick start guide](https://rjmacarthy.github.io/twinny-docs/general/quick-start/) to get started.
+Visit the [quick start guide](https://rjmacarthy.github.io/devdock-docs/general/quick-start/) to get started.
 
 ## Main Features
 
 ### Fill in the Middle Code Completion
 
-Get AI-based suggestions in real time. Let Twinny autocomplete your code as you type.
+Get AI-based suggestions in real time. Let Devdock autocomplete your code as you type.
 
-![Fill in the Middle Example](https://github.com/rjmacarthy/twinny/assets/5537428/69f567c0-2700-4474-b621-6099255bc87b)
+![Fill in the Middle Example](https://github.com/rjmacarthy/devdock/assets/5537428/69f567c0-2700-4474-b621-6099255bc87b)
 
 ### Chat with AI About Your Code
 
 Discuss your code via the sidebar: get function explanations, generate tests, request refactoring, and more.
 
-<img src="https://github.com/rjmacarthy/twinny/assets/5537428/a5c5bb34-60f6-41f6-8226-c62cf4c17c1d" width="760"/>
+<img src="https://github.com/rjmacarthy/devdock/assets/5537428/a5c5bb34-60f6-41f6-8226-c62cf4c17c1d" width="760"/>
 
 ### Additional Features
 
@@ -45,15 +45,15 @@ Discuss your code via the sidebar: get function explanations, generate tests, re
 
 ## Known Issues
 
-Visit the GitHub [issues page](https://github.com/rjmacarthy/twinny/issues) for known problems and troubleshooting.
+Visit the GitHub [issues page](https://github.com/rjmacarthy/devdock/issues) for known problems and troubleshooting.
 
 ## Contributing
 
-Interested in contributing? Reach out on [Twitter](https://x.com/rjmacarthy), describe your changes in an issue, and submit a PR when ready. Twinny is open-source under the MIT license. See the [LICENSE](https://github.com/rjmacarthy/twinny/blob/master/LICENSE) for more details.
+Interested in contributing? Reach out on [Twitter](https://x.com/rjmacarthy), describe your changes in an issue, and submit a PR when ready. Devdock is open-source under the MIT license. See the [LICENSE](https://github.com/rjmacarthy/devdock/blob/master/LICENSE) for more details.
 
-## Support Twinny
+## Support Devdock
 
-Thanks for using Twinny! 
+Thanks for using Devdock! 
 
 This project is and will always be free and open source. If you find it helpful, please consider showing your appreciation with a small donation <3
 
@@ -61,12 +61,12 @@ Bitcoin: `1PVavNkMmBmUz8nRYdnVXiTgXrAyaxfehj`
 
 ## Disclaimer
 
-Twinny is actively developed and provided "as is". Functionality may vary between updates.
+Devdock is actively developed and provided "as is". Functionality may vary between updates.
 
 ## Star History
 
 <picture>
- <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=rjmacarthy/twinny&type=Date&theme=dark" />
- <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=rjmacarthy/twinny&type=Date" />
- <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=rjmacarthy/twinny&type=Date" />
+ <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=rjmacarthy/devdock&type=Date&theme=dark" />
+ <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=rjmacarthy/devdock&type=Date" />
+ <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=rjmacarthy/devdock&type=Date" />
 </picture>

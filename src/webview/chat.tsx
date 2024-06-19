@@ -145,19 +145,19 @@ export const Chat = () => {
         handleAddTemplateMessage(message)
         break
       }
-      case EVENT_NAME.twinnyOnCompletion: {
+      case EVENT_NAME.devdockOnCompletion: {
         handleCompletionMessage(message)
         break
       }
-      case EVENT_NAME.twinnyOnLoading: {
+      case EVENT_NAME.devdockOnLoading: {
         handleLoadingMessage()
         break
       }
-      case EVENT_NAME.twinnyOnEnd: {
+      case EVENT_NAME.devdockOnEnd: {
         handleCompletionEnd(message)
         break
       }
-      case EVENT_NAME.twinnyStopGeneration: {
+      case EVENT_NAME.devdockStopGeneration: {
         setCompletion(null)
         generatingRef.current = false
         setLoading(false)
@@ -175,7 +175,7 @@ export const Chat = () => {
     stopRef.current = true
     generatingRef.current = false
     global.vscode.postMessage({
-      type: EVENT_NAME.twinnyStopGeneration
+      type: EVENT_NAME.devdockStopGeneration
     } as ClientMessage)
     setCompletion(null)
     setLoading(false)
@@ -192,7 +192,7 @@ export const Chat = () => {
       setLoading(true)
       setInputText('')
       global.vscode.postMessage({
-        type: EVENT_NAME.twinnyChatMessage,
+        type: EVENT_NAME.devdockChatMessage,
         data: [
           ...(messages || []),
           {
@@ -209,7 +209,7 @@ export const Chat = () => {
   const handleToggleAutoScroll = () => {
     setIsAutoScrolledEnabled((prev) => {
       global.vscode.postMessage({
-        type: EVENT_NAME.twinnySetWorkspaceContext,
+        type: EVENT_NAME.devdockSetWorkspaceContext,
         key: WORKSPACE_STORAGE_KEY.autoScroll,
         data: !prev
       } as ClientMessage)
@@ -223,7 +223,7 @@ export const Chat = () => {
   const handleToggleProviderSelection = () => {
     setShowProviders((prev) => {
       global.vscode.postMessage({
-        type: EVENT_NAME.twinnySetWorkspaceContext,
+        type: EVENT_NAME.devdockSetWorkspaceContext,
         key: WORKSPACE_STORAGE_KEY.showProviders,
         data: !prev
       } as ClientMessage)
@@ -233,7 +233,7 @@ export const Chat = () => {
 
   const handleGetGitChanges = () => {
     global.vscode.postMessage({
-      type: EVENT_NAME.twinnyGetGitChanges
+      type: EVENT_NAME.devdockGetGitChanges
     } as ClientMessage)
   }
 
@@ -349,7 +349,7 @@ export const Chat = () => {
             <textarea
               ref={chatRef}
               disabled={generatingRef.current}
-              placeholder="Message twinny"
+              placeholder="Message devdock"
               rows={1}
               value={inputText}
               className={styles.chatInput}

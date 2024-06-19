@@ -1,9 +1,9 @@
 import { defaultTemplates } from '../extension/templates'
 
-export const EXTENSION_NAME = '@ext:rjmacarthy.twinny'
+export const EXTENSION_NAME = '@ext:rjmacarthy.devdock'
 export const ASSISTANT = 'assistant'
 export const USER = 'user'
-export const TWINNY = '🤖 devdock'
+export const DEVDOCK = '🤖 devdock'
 export const SYSTEM = 'system'
 export const YOU = '👤 You'
 export const EMPTY_MESAGE = 'Sorry, I don’t understand. Please try again.'
@@ -26,91 +26,91 @@ export const MIN_COMPLETION_CHUNKS = 2
 export const MAX_EMPTY_COMPLETION_CHARS = 250
 
 export const EVENT_NAME = {
-  twinngAddMessage: 'twinny-add-message',
-  twinnyAcceptSolution: 'twinny-accept-solution',
-  twinnyChat: 'twinny-chat',
-  twinnyChatMessage: 'twinny-chat-message',
-  twinnyClickSuggestion: 'twinny-click-suggestion',
-  twinnyEnableModelDownload: 'twinny-enable-model-download',
-  twinnyFetchOllamaModels: 'twinny-fetch-ollama-models',
-  twinnyGetConfigValue: 'twinny-get-config-value',
-  twinnyGetGitChanges: 'twinny-get-git-changes',
-  twinnyGlobalContext: 'twinny-global-context',
-  twinnyHideBackButton: 'twinny-hide-back-button',
-  twinnyListTemplates: 'twinny-list-templates',
-  twinnyManageTemplates: 'twinny-manage-templates',
-  twinnyNewDocument: 'twinny-new-document',
-  twinnyNotification: 'twinny-notification',
-  twinnyOnCompletion: 'twinny-on-completion',
-  twinnyOnEnd: 'twinny-on-end',
-  twinnyOnLoading: 'twinny-on-loading',
-  twinnyOpenDiff: 'twinny-open-diff',
-  twinnyOpenSettings: 'twinny-open-settings',
-  twinnySendLanguage: 'twinny-send-language',
-  twinnySendSystemMessage: 'twinny-send-system-message',
-  twinnySendTheme: 'twinny-send-theme',
-  twinnySetConfigValue: 'twinny-set-config-value',
-  twinnySetGlobalContext: 'twinny-set-global-context',
-  twinnySetOllamaModel: 'twinny-set-ollama-model',
-  twinnySetTab: 'twinny-set-tab',
-  twinnySetWorkspaceContext: 'twinny-set-workspace-context',
-  twinnyStopGeneration: 'twinny-stop-generation',
-  twinnyTextSelection: 'twinny-text-selection',
-  twinnyWorkspaceContext: 'twinny-workspace-context'
+  twinngAddMessage: 'devdock-add-message',
+  devdockAcceptSolution: 'devdock-accept-solution',
+  devdockChat: 'devdock-chat',
+  devdockChatMessage: 'devdock-chat-message',
+  devdockClickSuggestion: 'devdock-click-suggestion',
+  devdockEnableModelDownload: 'devdock-enable-model-download',
+  devdockFetchOllamaModels: 'devdock-fetch-ollama-models',
+  devdockGetConfigValue: 'devdock-get-config-value',
+  devdockGetGitChanges: 'devdock-get-git-changes',
+  devdockGlobalContext: 'devdock-global-context',
+  devdockHideBackButton: 'devdock-hide-back-button',
+  devdockListTemplates: 'devdock-list-templates',
+  devdockManageTemplates: 'devdock-manage-templates',
+  devdockNewDocument: 'devdock-new-document',
+  devdockNotification: 'devdock-notification',
+  devdockOnCompletion: 'devdock-on-completion',
+  devdockOnEnd: 'devdock-on-end',
+  devdockOnLoading: 'devdock-on-loading',
+  devdockOpenDiff: 'devdock-open-diff',
+  devdockOpenSettings: 'devdock-open-settings',
+  devdockSendLanguage: 'devdock-send-language',
+  devdockSendSystemMessage: 'devdock-send-system-message',
+  devdockSendTheme: 'devdock-send-theme',
+  devdockSetConfigValue: 'devdock-set-config-value',
+  devdockSetGlobalContext: 'devdock-set-global-context',
+  devdockSetOllamaModel: 'devdock-set-ollama-model',
+  devdockSetTab: 'devdock-set-tab',
+  devdockSetWorkspaceContext: 'devdock-set-workspace-context',
+  devdockStopGeneration: 'devdock-stop-generation',
+  devdockTextSelection: 'devdock-text-selection',
+  devdockWorkspaceContext: 'devdock-workspace-context'
 }
 
-export const TWINNY_COMMAND_NAME = {
-  addTests: 'twinny.addTests',
-  addTypes: 'twinny.addTypes',
-  conversationHistory: 'twinny.conversationHistory',
-  disable: 'twinny.disable',
-  enable: 'twinny.enable',
-  explain: 'twinny.explain',
-  focusSidebar: 'twinny.sidebar.focus',
-  generateDocs: 'twinny.generateDocs',
-  getGitCommitMessage: 'twinny.getGitCommitMessage',
-  hideBackButton: 'twinny.hideBackButton',
-  manageProviders: 'twinny.manageProviders',
-  manageTemplates: 'twinny.manageTemplates',
-  newChat: 'twinny.newChat',
-  openChat: 'twinny.openChat',
-  refactor: 'twinny.refactor',
-  sendTerminalText: 'twinny.sendTerminalText',
-  settings: 'twinny.settings',
-  stopGeneration: 'twinny.stopGeneration',
-  templateCompletion: 'twinny.templateCompletion',
-  templates: 'twinny.templates'
+export const DEVDOCK_COMMAND_NAME = {
+  addTests: 'devdock.addTests',
+  addTypes: 'devdock.addTypes',
+  conversationHistory: 'devdock.conversationHistory',
+  disable: 'devdock.disable',
+  enable: 'devdock.enable',
+  explain: 'devdock.explain',
+  focusSidebar: 'devdock.sidebar.focus',
+  generateDocs: 'devdock.generateDocs',
+  getGitCommitMessage: 'devdock.getGitCommitMessage',
+  hideBackButton: 'devdock.hideBackButton',
+  manageProviders: 'devdock.manageProviders',
+  manageTemplates: 'devdock.manageTemplates',
+  newChat: 'devdock.newChat',
+  openChat: 'devdock.openChat',
+  refactor: 'devdock.refactor',
+  sendTerminalText: 'devdock.sendTerminalText',
+  settings: 'devdock.settings',
+  stopGeneration: 'devdock.stopGeneration',
+  templateCompletion: 'devdock.templateCompletion',
+  templates: 'devdock.templates'
 }
 
 export const CONVERSATION_EVENT_NAME = {
-  getActiveConversation: 'twinny.get-active-conversation',
-  getConversations: 'twinny.get-conversations',
-  removeConversation: 'twinny.remove-conversation',
-  saveConversation: 'twinny.save-conversation',
-  saveLastConversation: 'twinny.save-last-conversation',
-  setActiveConversation: 'twinny.set-active-conversation',
-  clearAllConversations: 'twinny.clear-all-conversations'
+  getActiveConversation: 'devdock.get-active-conversation',
+  getConversations: 'devdock.get-conversations',
+  removeConversation: 'devdock.remove-conversation',
+  saveConversation: 'devdock.save-conversation',
+  saveLastConversation: 'devdock.save-last-conversation',
+  setActiveConversation: 'devdock.set-active-conversation',
+  clearAllConversations: 'devdock.clear-all-conversations'
 }
 
 export const PROVIDER_EVENT_NAME = {
-  addProvider: 'twinny.add-provider',
-  copyProvider: 'twinny.copy-provider',
-  focusProviderTab: 'twinny.focus-provider-tab',
-  getActiveChatProvider: 'twinny.get-active-provider',
-  getActiveFimProvider: 'twinny.get-active-fim-provider',
-  getAllProviders: 'twinny.get-providers',
-  removeProvider: 'twinny.remove-provider',
-  resetProvidersToDefaults: 'twinny.reset-providers-to-defaults',
-  setActiveChatProvider: 'twinny.set-active-chat-provider',
-  setActiveFimProvider: 'twinny.set-active-fim-provider',
-  updateProvider: 'twinny.update-provider'
+  addProvider: 'devdock.add-provider',
+  copyProvider: 'devdock.copy-provider',
+  focusProviderTab: 'devdock.focus-provider-tab',
+  getActiveChatProvider: 'devdock.get-active-provider',
+  getActiveFimProvider: 'devdock.get-active-fim-provider',
+  getAllProviders: 'devdock.get-providers',
+  removeProvider: 'devdock.remove-provider',
+  resetProvidersToDefaults: 'devdock.reset-providers-to-defaults',
+  setActiveChatProvider: 'devdock.set-active-chat-provider',
+  setActiveFimProvider: 'devdock.set-active-fim-provider',
+  updateProvider: 'devdock.update-provider'
 }
 
-export const ACTIVE_CHAT_PROVIDER_STORAGE_KEY = 'twinny.active-chat-provider'
-export const ACTIVE_CONVERSATION_STORAGE_KEY = 'twinny.active-conversation'
-export const ACTIVE_FIM_PROVIDER_STORAGE_KEY = 'twinny.active-fim-provider'
-export const CONVERSATION_STORAGE_KEY = 'twinny.conversations'
-export const INFERENCE_PROVIDERS_STORAGE_KEY = 'twinny.inference-providers'
+export const ACTIVE_CHAT_PROVIDER_STORAGE_KEY = 'devdock.active-chat-provider'
+export const ACTIVE_CONVERSATION_STORAGE_KEY = 'devdock.active-conversation'
+export const ACTIVE_FIM_PROVIDER_STORAGE_KEY = 'devdock.active-fim-provider'
+export const CONVERSATION_STORAGE_KEY = 'devdock.conversations'
+export const INFERENCE_PROVIDERS_STORAGE_KEY = 'devdock.inference-providers'
 
 export const WORKSPACE_STORAGE_KEY = {
   autoScroll: 'autoScroll',
@@ -129,10 +129,10 @@ export const EXTENSION_SETTING_KEY = {
 }
 
 export const EXTENSION_CONTEXT_NAME = {
-  twinnyConversationHistory: 'twinnyConversationHistory',
-  twinnyGeneratingText: 'twinnyGeneratingText',
-  twinnyManageProviders: 'twinnyManageProviders',
-  twinnyManageTemplates: 'twinnyManageTemplates'
+  devdockConversationHistory: 'devdockConversationHistory',
+  devdockGeneratingText: 'devdockGeneratingText',
+  devdockManageProviders: 'devdockManageProviders',
+  devdockManageTemplates: 'devdockManageTemplates'
 }
 
 export const WEBUI_TABS = {

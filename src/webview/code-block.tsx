@@ -32,14 +32,14 @@ export const CodeBlock = (props: CodeBlockProps) => {
 
   const handleNewDocument = () => {
     global.vscode.postMessage({
-      type: EVENT_NAME.twinnyNewDocument,
+      type: EVENT_NAME.devdockNewDocument,
       data: String(children).replace(/^\n/, '')
     })
   }
 
   const handleAccept = () => {
     global.vscode.postMessage({
-      type: EVENT_NAME.twinnyAcceptSolution,
+      type: EVENT_NAME.devdockAcceptSolution,
       data: String(children).replace(/^\n/, '')
     })
   }

@@ -160,7 +160,7 @@ export const ApiProviders = {
   Ollama: 'ollama',
   Oobabooga: 'oobabooga',
   OpenWebUI: 'openwebui',
-  Devdock:'devdock',
+  Devdock:'devdock', // This needs to be added
 } as const
 
 export interface ApiModel {

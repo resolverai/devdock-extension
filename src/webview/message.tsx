@@ -6,7 +6,7 @@ import CodeBlock from './code-block'
 import styles from './index.module.css'
 import { Message as MessageType, ThemeType } from '../common/types'
 import React from 'react'
-import { ASSISTANT, TWINNY, YOU } from '../common/constants'
+import { ASSISTANT, DEVDOCK, YOU } from '../common/constants'
 
 interface MessageProps {
   message?: MessageType
@@ -25,7 +25,7 @@ export const Message = ({ message, theme }: MessageProps) => {
           message?.role === ASSISTANT ? styles.assistantMessage : styles.userMessage
         }`}
       >
-        <span className={styles.messageRole}>{message.role === ASSISTANT ? TWINNY : YOU}</span>
+        <span className={styles.messageRole}>{message.role === ASSISTANT ? DEVDOCK : YOU}</span>
         <Markdown
           remarkPlugins={[remarkGfm]}
           components={{

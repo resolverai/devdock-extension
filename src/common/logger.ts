@@ -1,7 +1,7 @@
 import { workspace } from 'vscode'
 
 export class Logger {
-  _config = workspace.getConfiguration('twinny')
+  _config = workspace.getConfiguration('devdock')
   _debugEnabled = this._config.get('enableLogging') as boolean
 
   public log = (message: string) => {
@@ -15,7 +15,7 @@ export class Logger {
   }
 
   public updateConfig() {
-    this._config = workspace.getConfiguration('twinny')
+    this._config = workspace.getConfiguration('devdock')
     this._debugEnabled = this._config.get('enableLogging') as boolean
   }
 }

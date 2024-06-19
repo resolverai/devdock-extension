@@ -3,7 +3,7 @@ import { Logger } from '../common/logger'
 
 export class OllamaService {
   private logger: Logger
-  private _config = workspace.getConfiguration('twinny')
+  private _config = workspace.getConfiguration('devdock')
   private _baseUrl: string
 
   constructor() {

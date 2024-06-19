@@ -10,7 +10,7 @@ import {
 } from '../common/constants'
 import { v4 as uuidv4 } from 'uuid'
 
-export interface TwinnyProvider {
+export interface DevdockProvider {
   apiHostname: string
   apiPath: string
   apiPort: number
@@ -24,7 +24,7 @@ export interface TwinnyProvider {
   fimTemplate?: string
 }
 
-type Providers = Record<string, TwinnyProvider> | undefined
+type Providers = Record<string, DevdockProvider> | undefined
 
 export class ProviderManager {
   _context: ExtensionContext
@@ -39,13 +39,13 @@ export class ProviderManager {
 
   setUpEventListeners() {
     this._webviewView.webview.onDidReceiveMessage(
-      (message: ClientMessage<TwinnyProvider>) => {
+      (message: ClientMessage<DevdockProvider>) => {
         this.handleMessage(message)
       }
     )
   }
 
-  handleMessage(message: ClientMessage<TwinnyProvider>) {
+  handleMessage(message: ClientMessage<DevdockProvider>) {
     const { data: provider } = message
     switch (message.type) {
       case PROVIDER_EVENT_NAME.addProvider:
@@ -91,7 +91,7 @@ export class ProviderManager {
       modelName: 'codellama:7b-instruct',
       provider: ApiProviders.Ollama,
       type: 'chat'
-    } as TwinnyProvider
+    } as DevdockProvider
   }
 
   getDefaultFimProvider() {
@@ -106,7 +106,7 @@ export class ProviderManager {
       modelName: 'codellama:7b-code',
       provider: ApiProviders.Ollama,
       type: 'fim'
-    } as TwinnyProvider
+    } as DevdockProvider
   }
 
   addDefaultProviders() {
@@ -114,7 +114,7 @@ export class ProviderManager {
     this.addDefaultFimProvider()
   }
 
-  addDefaultChatProvider(): TwinnyProvider {
+  addDefaultChatProvider(): DevdockProvider {
     const provider = this.getDefaultChatProvider()
     if (!this._context.globalState.get(ACTIVE_CHAT_PROVIDER_STORAGE_KEY)) {
       this.addDefaultProvider(provider)
@@ -122,7 +122,7 @@ export class ProviderManager {
     return provider
   }
 
-  addDefaultFimProvider(): TwinnyProvider {
+  addDefaultFimProvider(): DevdockProvider {
     const provider = this.getDefaultFimProvider()
     if (!this._context.globalState.get(ACTIVE_FIM_PROVIDER_STORAGE_KEY)) {
       this.addDefaultProvider(provider)
@@ -130,7 +130,7 @@ export class ProviderManager {
     return provider
   }
 
-  addDefaultProvider(provider: TwinnyProvider): void {
+  addDefaultProvider(provider: DevdockProvider): void {
     if (provider.type === 'chat') {
       this._context.globalState.update(
         ACTIVE_CHAT_PROVIDER_STORAGE_KEY,
@@ -147,7 +147,7 @@ export class ProviderManager {
 
   getProviders(): Providers {
     const providers = this._context.globalState.get<
-      Record<string, TwinnyProvider>
+      Record<string, DevdockProvider>
     >(INFERENCE_PROVIDERS_STORAGE_KEY)
     return providers
   }
@@ -163,7 +163,7 @@ export class ProviderManager {
   }
 
   getActiveChatProvider() {
-    const provider = this._context.globalState.get<TwinnyProvider>(
+    const provider = this._context.globalState.get<DevdockProvider>(
       ACTIVE_CHAT_PROVIDER_STORAGE_KEY
     )
     this._webviewView.webview.postMessage({
@@ -176,7 +176,7 @@ export class ProviderManager {
   }
 
   getActiveFimProvider() {
-    const provider = this._context.globalState.get<TwinnyProvider>(
+    const provider = this._context.globalState.get<DevdockProvider>(
       ACTIVE_FIM_PROVIDER_STORAGE_KEY
     )
     this._webviewView.webview.postMessage({
@@ -188,19 +188,19 @@ export class ProviderManager {
     return provider
   }
 
-  setActiveChatProvider(provider?: TwinnyProvider) {
+  setActiveChatProvider(provider?: DevdockProvider) {
     if (!provider) return
     this._context.globalState.update(ACTIVE_CHAT_PROVIDER_STORAGE_KEY, provider)
     return this.getActiveChatProvider()
   }
 
-  setActiveFimProvider(provider?: TwinnyProvider) {
+  setActiveFimProvider(provider?: DevdockProvider) {
     if (!provider) return
     this._context.globalState.update(ACTIVE_FIM_PROVIDER_STORAGE_KEY, provider)
     return this.getActiveFimProvider()
   }
 
-  addProvider(provider?: TwinnyProvider) {
+  addProvider(provider?: DevdockProvider) {
     const providers = this.getProviders() || {}
     if (!provider) return
     provider.id = uuidv4()
@@ -209,14 +209,14 @@ export class ProviderManager {
     this.getAllProviders()
   }
 
-  copyProvider(provider?: TwinnyProvider) {
+  copyProvider(provider?: DevdockProvider) {
     if (!provider) return
     provider.id = uuidv4()
     provider.label = `${provider.label}-copy`
     this.addProvider(provider)
   }
 
-  removeProvider(provider?: TwinnyProvider) {
+  removeProvider(provider?: DevdockProvider) {
     const providers = this.getProviders() || {}
     if (!provider) return
     delete providers[provider.id]
@@ -224,7 +224,7 @@ export class ProviderManager {
     this.getAllProviders()
   }
 
-  updateProvider(provider?: TwinnyProvider) {
+  updateProvider(provider?: DevdockProvider) {
     const providers = this.getProviders() || {}
     const activeFimProvider = this.getActiveFimProvider()
     const activeChatProvider = this.getActiveChatProvider()

@@ -21,7 +21,7 @@ These example configurations serve as a starting point. Individual adjustments m
 
 ### Open WebUI
 
-Open WebUI can be used a proxy API for twinny, simply configure the endpoint to match what is served by OpenWeb UI.
+Open WebUI can be used a proxy API for devdock, simply configure the endpoint to match what is served by OpenWeb UI.
 
 #### FIM (Auto-complete)
 

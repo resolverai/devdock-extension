@@ -3,13 +3,13 @@
 1. Clone this repository:
 
 ```
-git clone https://github.com/rjmacarthy/twinny.git
+git clone https://github.com/rjmacarthy/devdock.git
 ```
 
 2. Navigate to the cloned directory:
 
 ```
-cd twinny
+cd devdock
 ```
 
 3. Install the necessary dependencies:

@@ -33,7 +33,7 @@ import {
   QUOTES,
   QUOTES_REGEX,
   SKIP_DECLARATION_SYMBOLS,
-  TWINNY
+  DEVDOCK
 } from '../common/constants'
 import { Logger } from '../common/logger'
 import { SyntaxNode } from 'web-tree-sitter'
@@ -397,9 +397,9 @@ export const getGitChanges = async (): Promise<string> => {
 }
 
 export const getTerminal = async (): Promise<Terminal | undefined> => {
-  const twinnyTerminal = window.terminals.find((t) => t.name === TWINNY)
-  if (twinnyTerminal) return twinnyTerminal
-  const terminal = window.createTerminal({ name: TWINNY })
+  const devdockTerminal = window.terminals.find((t) => t.name === DEVDOCK)
+  if (devdockTerminal) return devdockTerminal
+  const terminal = window.createTerminal({ name: DEVDOCK })
   terminal.show()
   return terminal
 }
@@ -424,7 +424,7 @@ export const getSanitizedCommitMessage = (commitMessage: string) => {
 export const logStreamOptions = (opts: StreamRequest) => {
   logger.log(
     `
-***Twinny Stream Debug***\n\
+***Devdock Stream Debug***\n\
 Streaming response from ${opts.options.hostname}:${opts.options.port}.\n\
 Request body:\n${JSON.stringify(opts.body, null, 2)}\n\n
 Request options:\n${JSON.stringify(opts.options, null, 2)}\n\n

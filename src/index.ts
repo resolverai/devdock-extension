@@ -229,7 +229,9 @@ export async function activate(context: ExtensionContext) {
   context.subscriptions.push(vscode.window.registerUriHandler({
     handleUri(uri: vscode.Uri) {
         if (uri.path === '/auth/callback') {
-            handleAuthentication(uri);
+            handleAuthentication(uri).then(() => {
+              console.log("Handle Authentication executed successfully")
+            })
         }
     }
   }))

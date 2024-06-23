@@ -4,12 +4,16 @@ import * as fs from 'fs'
 import * as path from 'path';
 import * as auth0  from 'auth0-js';
 
-import { Web3Auth } from '@web3auth/web3auth';
+import { CommonPrivateKeyProvider } from "@web3auth/base-provider";
 import { OpenloginAdapter } from '@web3auth/openlogin-adapter';
+import { CHAIN_NAMESPACES, WALLET_ADAPTERS } from "@web3auth/base";
+import { Web3AuthNoModal } from "@web3auth/no-modal";
+import { Web3Auth } from '@web3auth/web3auth';
+
 
 type AuthCallback = (error: auth0.Auth0ParseHashError | null, result?: auth0.Auth0DecodedHash) => void;
 let webViewPanel: vscode.WebviewPanel | undefined = undefined;
-let web3auth: Web3Auth;
+let web3Auth: Web3Auth
 
 const envFilePath = path.join(__dirname, '..', '.env');
 if (fs.existsSync(envFilePath)) {
@@ -22,6 +26,19 @@ const auth0Config = {
     redirectUri: process.env.AUTH0_REDIRECT_URI || ''
 }
 
+const chainConfig = {
+  chainNamespace: CHAIN_NAMESPACES.OTHER,
+  chainId: "0xaa36a7", //
+  rpcTarget: "https://rpc.ankr.com/eth_sepolia",
+  // Avoid using public rpcTarget in production.
+  displayName: "StarkNet Testnet",
+  blockExplorerUrl: "https://sepolia.etherscan.io",
+  ticker: "STRK",
+  tickerName: "StarkNet",
+};
+
+const privateKeyProvider = new CommonPrivateKeyProvider()
+
 const webAuth = new auth0.WebAuth({
   domain: auth0Config.domain,
   clientID: auth0Config.clientId,
@@ -29,6 +46,7 @@ const webAuth = new auth0.WebAuth({
   responseType: 'token id_token',
   scope: 'openid profile email'
 });
+
 
 const generateNonce = () => {
   const random = Math.random().toString(36).substring(2, 15);
@@ -46,7 +64,7 @@ const socialLogin = () => {
             })
 }
 
-const handleAuthentication = (uri: vscode.Uri) => {
+const handleAuthentication = async (uri: vscode.Uri) => {
   console.log(uri)
   if (uri.scheme === vscode.env.uriScheme && uri.authority === 'taran.devdock' && uri.path === '/auth/callback') {
     const fragment = uri.fragment;
@@ -55,6 +73,7 @@ const handleAuthentication = (uri: vscode.Uri) => {
     if (match && match.length > 1) {
       const accessToken = match[1]
       console.log("Access Token:", accessToken)
+      await initWeb3Auth()
     }else{
       console.error("No access token found in URI fragment")
     }
@@ -62,6 +81,35 @@ const handleAuthentication = (uri: vscode.Uri) => {
     console.error("Invalid callback URI")
   }
 }
+
+const initWeb3Auth = async () => {
+  try {
+      web3Auth = new Web3Auth({
+        clientId: process.env.WEB3AUTH_SAPPHIRE_DEVNET_CLIENT_ID || '',
+        chainConfig
+      });
+      const openloginAdapter = new OpenloginAdapter({
+          adapterSettings: {
+              network: 'mainnet',
+          },
+      });
+      web3Auth.configureAdapter(openloginAdapter);
+      await web3Auth.init();
+      console.log("Web3Auth initialized successfully")
+      const web3AuthProvider = await web3Auth.connect()
+      console.log("Web3Auth Provider:", web3AuthProvider)
+
+      // You can now use the provider to interact with blockchain
+      const accounts = await <any>web3AuthProvider?.request({ method: 'eth_accounts' })
+      console.log(`Logged in successfully. Account: ${accounts[0]}`)
+      const user = await web3Auth.getUserInfo();
+      console.log("Web3AUth User: ", user)
+  } catch (error) {
+      console.error("Web3Auth initialization error:", error);
+      vscode.window.showErrorMessage('Failed to initialize Web3Auth')
+  }
+}
+
 
 const getAuthHtml = (authUrl: string): string  => {
   return `
@@ -81,5 +129,5 @@ const getAuthHtml = (authUrl: string): string  => {
   `;
 }
 
-export { auth0Config, socialLogin, handleAuthentication }
+export { auth0Config, socialLogin, handleAuthentication, initWeb3Auth }
 

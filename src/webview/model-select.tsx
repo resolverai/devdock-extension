@@ -2,6 +2,7 @@ import { VSCodeDropdown } from '@vscode/webview-ui-toolkit/react'
 
 import { getModelShortName } from './utils'
 import { ApiModel } from '../common/types'
+import React from 'react';
 
 interface Props {
   model: string | undefined

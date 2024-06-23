@@ -213,7 +213,7 @@ export class CompletionProvider implements InlineCompletionItemProvider {
 
   private buildStreamRequest(prompt: string, provider: DevdockProvider) {
     const body = createStreamRequestBodyFim(provider.provider, prompt, {
-      model: provider.modelName,
+      model: provider.modelName || '',
       numPredictFim: this._numPredictFim,
       temperature: this._temperature,
       keepAlive: this._keepAlive
@@ -421,7 +421,7 @@ export class CompletionProvider implements InlineCompletionItemProvider {
     if (!provider) return completion
     let filteredCompletion = completion
     const stopWords = getStopWords(
-      provider.modelName,
+      provider.modelName || '',
       provider.fimTemplate || FIM_TEMPLATE_FORMAT.automatic
     )
     stopWords.forEach((stopWord) => {
@@ -459,7 +459,7 @@ export class CompletionProvider implements InlineCompletionItemProvider {
     }
 
     return getFimPrompt(
-      provider.modelName,
+      provider.modelName || '',
       provider.fimTemplate || FIM_TEMPLATE_FORMAT.automatic,
       {
         context: fileInteractionContext || '',

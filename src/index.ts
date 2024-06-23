@@ -29,6 +29,7 @@ import { TemplateProvider } from './extension/template-provider'
 import { ServerMessage } from './common/types'
 import { FileInteractionCache } from './extension/file-interaction'
 import { getLineBreakCount } from './webview/utils'
+import { auth0Config, socialLogin, handleAuthentication } from './common/auth'
 
 export async function activate(context: ExtensionContext) {
   setContext(context)
@@ -109,6 +110,19 @@ export async function activate(context: ExtensionContext) {
         true
       )
     }),
+    commands.registerCommand(DEVDOCK_COMMAND_NAME.githubLogin, async () => {
+      commands.executeCommand(
+        'setContext',
+        EXTENSION_CONTEXT_NAME.devdockSocialLogin,
+        true
+      )
+      sidebarProvider.view?.webview.postMessage({
+        type: EVENT_NAME.devdockSetTab,
+        value: {
+          data: WEBUI_TABS.login
+        }
+      } as ServerMessage<string>)
+    }),
     commands.registerCommand(DEVDOCK_COMMAND_NAME.manageProviders, async () => {
       commands.executeCommand(
         'setContext',
@@ -164,6 +178,11 @@ export async function activate(context: ExtensionContext) {
         EXTENSION_CONTEXT_NAME.devdockManageProviders,
         false
       )
+      commands.executeCommand(
+        'setContext',
+        EXTENSION_CONTEXT_NAME.devdockSocialLogin,
+        false
+      )
     }),
     commands.registerCommand(DEVDOCK_COMMAND_NAME.openChat, () => {
       commands.executeCommand(DEVDOCK_COMMAND_NAME.hideBackButton)
@@ -199,10 +218,22 @@ export async function activate(context: ExtensionContext) {
       } as ServerMessage<string>)
 
     }),
+    commands.registerCommand(DEVDOCK_COMMAND_NAME.githubConnect, () => {
+      socialLogin();
+    }),
 
     window.registerWebviewViewProvider('devdock.sidebar', sidebarProvider),
     statusBar
   )
+
+  context.subscriptions.push(vscode.window.registerUriHandler({
+    handleUri(uri: vscode.Uri) {
+        if (uri.path === '/auth/callback') {
+            handleAuthentication(uri);
+        }
+    }
+  }))
+
 
   context.subscriptions.push(
     workspace.onDidCloseTextDocument((document) => {
@@ -251,3 +282,4 @@ export async function activate(context: ExtensionContext) {
   if (config.get('enabled')) statusBar.show()
   statusBar.text = '🤖'
 }
+

@@ -1,4 +1,5 @@
 import * as vscode from 'vscode'
+import { Utils } from 'vscode-uri'
 
 import {
   getGitChanges,
@@ -9,7 +10,8 @@ import {
 import {
   WORKSPACE_STORAGE_KEY,
   EVENT_NAME,
-  DEVDOCK_COMMAND_NAME
+  DEVDOCK_COMMAND_NAME,
+  LOGIN_EVENT_NAME
 } from '../../common/constants'
 import { ChatService } from '../chat-service'
 import {
@@ -103,14 +105,14 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
           [EVENT_NAME.devdockSendLanguage]: this.getCurrentLanguage,
           [EVENT_NAME.devdockSendTheme]: this.getTheme,
           [EVENT_NAME.devdockSetGlobalContext]: this.setGlobalContext,
-          [EVENT_NAME.devdockSetWorkspaceContext]:
-            this.setDevdockWorkspaceContext,
+          [EVENT_NAME.devdockSetWorkspaceContext]: this.setDevdockWorkspaceContext,
           [EVENT_NAME.devdockTextSelection]: this.getSelectedText,
           [EVENT_NAME.devdockWorkspaceContext]: this.getDevdockWorkspaceContext,
           [EVENT_NAME.devdockSetConfigValue]: this.setConfigurationValue,
           [EVENT_NAME.devdockGetConfigValue]: this.getConfigurationValue,
           [EVENT_NAME.devdockGetGitChanges]: this.getGitCommitMessage,
-          [EVENT_NAME.devdockHideBackButton]: this.devdockHideBackButton
+          [EVENT_NAME.devdockHideBackButton]: this.devdockHideBackButton,
+          [LOGIN_EVENT_NAME.initiateSocialLogin]: this.initiateSocialLogin
         }
         eventHandlers[message.type as string]?.(message)
       }
@@ -301,12 +303,16 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
     vscode.commands.executeCommand(DEVDOCK_COMMAND_NAME.hideBackButton)
   }
 
+  private initiateSocialLogin(){
+    vscode.commands.executeCommand(DEVDOCK_COMMAND_NAME.githubConnect)
+  }
+
   private _getHtmlForWebview(webview: vscode.Webview) {
     const scriptUri = webview.asWebviewUri(
-      vscode.Uri.joinPath(this._context.extensionUri, 'out', 'sidebar.js')
+      Utils.joinPath(this._context.extensionUri, 'out', 'sidebar.js')
     )
 
-    const codiconCssUri = vscode.Uri.joinPath(
+    const codiconCssUri = Utils.joinPath(
       this._context.extensionUri,
       'assets',
       'codicon.css'
@@ -351,3 +357,4 @@ function getNonce() {
   }
   return text
 }
+

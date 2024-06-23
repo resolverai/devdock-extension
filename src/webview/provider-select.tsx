@@ -2,6 +2,7 @@ import {
   VSCodeDropdown,
   VSCodeOption,
 } from '@vscode/webview-ui-toolkit/react'
+import React from 'react';
 
 import styles from './providers.module.css'
 import { useProviders } from './hooks'
@@ -40,7 +41,7 @@ export const ProviderSelect = () => {
           onChange={handleChangeChatProvider}
         >
           {Object.values(getFimProvidersByType('chat'))
-            .sort((a, b) => a.modelName.localeCompare(b.modelName))
+            .sort((a, b) => (a.modelName || '').localeCompare(b.modelName || ''))
             .map((provider, index) => (
               <VSCodeOption key={index} value={provider.id}>
                 {`${provider.label} (${provider.modelName})`}
@@ -56,7 +57,7 @@ export const ProviderSelect = () => {
           onChange={handleChangeFimProvider}
         >
           {Object.values(getFimProvidersByType('fim'))
-            .sort((a, b) => a.modelName.localeCompare(b.modelName))
+            .sort((a, b) => (a.modelName || '').localeCompare(b.modelName || ''))
             .map((provider, index) => (
               <VSCodeOption key={index} value={provider.id}>
                 {`${provider.label} (${provider.modelName})`}

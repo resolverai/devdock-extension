@@ -91,7 +91,7 @@ export class ChatService {
     }
 
     const requestBody = createStreamRequestBody(provider.provider, {
-      model: provider.modelName,
+      model: provider.modelName || '',
       numPredictChat: this._numPredictChat,
       temperature: this._temperature,
       messages,

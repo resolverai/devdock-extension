@@ -5,6 +5,7 @@ import styles from './index.module.css'
 import { useTemplates, useWorkSpaceContext } from './hooks'
 import { kebabToSentence } from './utils'
 import { useEffect, useState } from 'react'
+import React from 'react';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const global = globalThis as any

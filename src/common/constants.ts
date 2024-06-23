@@ -1,6 +1,6 @@
 import { defaultTemplates } from '../extension/templates'
 
-export const EXTENSION_NAME = '@ext:rjmacarthy.devdock'
+export const EXTENSION_NAME = '@ext:devdock.codemate'
 export const ASSISTANT = 'assistant'
 export const USER = 'user'
 export const DEVDOCK = '🤖 devdock'
@@ -53,6 +53,7 @@ export const EVENT_NAME = {
   devdockSetGlobalContext: 'devdock-set-global-context',
   devdockSetOllamaModel: 'devdock-set-ollama-model',
   devdockSetTab: 'devdock-set-tab',
+  devdockGithubLogin: 'devdock-github-login',
   devdockSetWorkspaceContext: 'devdock-set-workspace-context',
   devdockStopGeneration: 'devdock-stop-generation',
   devdockTextSelection: 'devdock-text-selection',
@@ -71,6 +72,8 @@ export const DEVDOCK_COMMAND_NAME = {
   getGitCommitMessage: 'devdock.getGitCommitMessage',
   hideBackButton: 'devdock.hideBackButton',
   manageProviders: 'devdock.manageProviders',
+  githubLogin: 'devdock.githubLogin',
+  githubConnect: 'devdock.githubConnect',
   manageTemplates: 'devdock.manageTemplates',
   newChat: 'devdock.newChat',
   openChat: 'devdock.openChat',
@@ -106,6 +109,12 @@ export const PROVIDER_EVENT_NAME = {
   updateProvider: 'devdock.update-provider'
 }
 
+export const LOGIN_EVENT_NAME = {
+  initiateSocialLogin: 'devdock.initiate-social-login',
+  completeSocialLogin: 'devdock.complete-social-login',
+  errorSocialLogin: 'devdock.error-social-login'
+}
+
 export const ACTIVE_CHAT_PROVIDER_STORAGE_KEY = 'devdock.active-chat-provider'
 export const ACTIVE_CONVERSATION_STORAGE_KEY = 'devdock.active-conversation'
 export const ACTIVE_FIM_PROVIDER_STORAGE_KEY = 'devdock.active-fim-provider'
@@ -132,14 +141,16 @@ export const EXTENSION_CONTEXT_NAME = {
   devdockConversationHistory: 'devdockConversationHistory',
   devdockGeneratingText: 'devdockGeneratingText',
   devdockManageProviders: 'devdockManageProviders',
-  devdockManageTemplates: 'devdockManageTemplates'
+  devdockManageTemplates: 'devdockManageTemplates',
+  devdockSocialLogin: 'devdockSocialLogin'
 }
 
 export const WEBUI_TABS = {
   chat: 'chat',
   history: 'history',
   providers: 'providers',
-  templates: 'templates'
+  templates: 'templates',
+  login: 'login'
 }
 
 export const FIM_TEMPLATE_FORMAT = {

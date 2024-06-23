@@ -402,4 +402,6 @@ const useAutosizeTextArea = (
   }, [chatRef, value])
 }
 
+export const useLogin = () => {}
+
 export default useAutosizeTextArea

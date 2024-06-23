@@ -363,7 +363,7 @@ function ProviderForm({ onClose, provider }: ProviderFormProps) {
             required
             onChange={handleChange}
             name="apiPort"
-            value={formState.apiPort.toString()}
+            value={formState.apiPort?.toString()}
             placeholder='Enter a port e.g "11434"'
           ></VSCodeTextField>
         </div>

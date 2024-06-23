@@ -30,7 +30,7 @@
     "url": "https://github.com/rjmacarthy/devdock"
   },
   "license": "MIT",
-  "publisher": "rjmacarthy",
+  "publisher": "taran",
   "engines": {
     "vscode": "^1.84.0"
   },
@@ -53,10 +53,19 @@
     "onStartupFinished"
   ],
   "author": {
-    "name": "rjmacarthy"
+    "name": "taran"
   },
   "main": "./out/index.js",
   "contributes": {
+    "webview": {
+      "asWebviewUri": true,
+      "retainContextWhenHidden": true,
+      "webview-src": [
+        "https://devdock.us.auth0.com/",
+        "https://us.auth0.com/",
+        "https://auth0.com/"
+      ]
+    },
     "menus": {
       "editor/context": [
         {
@@ -84,37 +93,42 @@
         {
           "command": "devdock.openChat",
           "group": "navigation@0",
-          "when": "view == devdock.sidebar && devdockManageTemplates || view == devdock.sidebar && devdockManageProviders || view == devdock.sidebar && devdockConversationHistory "
+          "when": "view == devdock.sidebar && devdockManageTemplates || view == devdock.sidebar && devdockManageProviders || view == devdock.sidebar && devdockConversationHistory || view == devdock.sidebar && devdockSocialLogin"
         },
         {
-          "command": "devdock.manageProviders",
+          "command": "devdock.githubLogin",
           "group": "navigation@1",
           "when": "view == devdock.sidebar"
         },
         {
-          "command": "devdock.manageTemplates",
+          "command": "devdock.manageProviders",
           "group": "navigation@2",
+          "when": "view == devdock.sidebar"
+        },
+        {
+          "command": "devdock.manageTemplates",
+          "group": "navigation@3",
           "when": "view == devdock.sidebar"
         },
         {
           "command": "devdock.templates",
           "when": "view == devdock.sidebar",
-          "group": "navigation@3"
+          "group": "navigation@4"
         },
         {
           "command": "devdock.conversationHistory",
           "when": "view == devdock.sidebar",
-          "group": "navigation@4"
+          "group": "navigation@5"
         },
         {
           "command": "devdock.newChat",
           "when": "view == devdock.sidebar",
-          "group": "navigation@5"
+          "group": "navigation@6"
         },
         {
           "command": "devdock.settings",
           "when": "view == devdock.sidebar",
-          "group": "navigation@6"
+          "group": "navigation@7"
         }
       ]
     },
@@ -203,6 +217,12 @@
         "shortTitle": "Back to chat view",
         "title": "Back to chat view",
         "icon": "$(arrow-left)"
+      },
+      {
+        "command": "devdock.githubLogin",
+        "shortTitle": "Login with GitHub",
+        "title": "Login with GitHub",
+        "icon": "$(github)"
       }
     ],
     "keybindings": [
@@ -360,6 +380,24 @@
           "type": "boolean",
           "default": true,
           "description": "Enable devdock debug mode"
+        },
+        "devdock.auth0_domain": {
+          "order": 27,
+          "type": "string",
+          "default": "",
+          "description": "Auth0 domain for Devdock Auth0 App"
+        },
+        "devdock.auth0_clientId": {
+          "order": 28,
+          "type": "string",
+          "default": "",
+          "description": "Auth0 Client Id for Devdock Auth0 App"
+        },
+        "devdock.auth0_redirectUri": {
+          "order": 29,
+          "type": "string",
+          "default": "",
+          "description": "Auth0 Redirect URI for Devdock Auth0 App"
         }
       }
     }
@@ -380,6 +418,7 @@
   },
   "devDependencies": {
     "@types/async-lock": "^1.4.2",
+    "@types/auth0-js": "^9.21.6",
     "@types/handlebars": "^4.1.0",
     "@types/mocha": "^10.0.6",
     "@types/node": "^16.18.68",
@@ -387,7 +426,7 @@
     "@types/react-syntax-highlighter": "^15.5.11",
     "@types/string_score": "^0.1.31",
     "@types/uuid": "^9.0.8",
-    "@types/vscode": "^1.70.0",
+    "@types/vscode": "^1.84.0",
     "@typescript-eslint/eslint-plugin": "^5.31.0",
     "@typescript-eslint/parser": "^5.31.0",
     "@vscode/test-cli": "^0.0.6",
@@ -403,28 +442,38 @@
     "tree-sitter-wasms": "^0.1.7",
     "ts-loader": "^9.5.1",
     "typescript": "^4.9.5",
+    "vscode": "^1.1.37",
     "web-tree-sitter": "^0.22.1",
     "webpack": "^5.92.0",
     "webpack-cli": "^4.10.0"
   },
   "dependencies": {
+    "@starkware-industries/starkware-crypto-utils": "^0.2.1",
     "@types/react": "^18.2.46",
     "@vscode/codicons": "^0.0.35",
     "@vscode/webview-ui-toolkit": "^1.4.0",
+    "@web3auth/no-modal": "^8.6.2",
     "@web3auth/web3auth": "^2.1.3",
     "async-lock": "^1.4.1",
+    "auth0-js": "^9.26.1",
+    "bn.js": "^5.2.1",
     "classnames": "^2.5.1",
+    "dotenv": "^16.4.5",
+    "elliptic": "^6.5.5",
     "handlebars": "^4.7.8",
     "handlebars-loader": "^1.7.3",
     "node-polyfill-webpack-plugin": "^3.0.0",
-    "react": "^18.2.0",
+    "react": "^18.3.1",
     "react-dom": "^18.2.0",
     "react-markdown": "^9.0.1",
     "react-syntax-highlighter": "^15.5.0",
     "rehype-raw": "^7.0.0",
     "remark-gfm": "^4.0.0",
+    "starknet": "^5.24.3",
     "stream-http": "^3.2.0",
     "string_score": "^0.1.22",
-    "uuid": "^9.0.1"
+    "uuid": "^9.0.1",
+    "vscode-uri": "^3.0.8",
+    "web3": "^4.10.0"
   }
 }

@@ -6,6 +6,7 @@ import {
   VSCodeProgressRing,
   VSCodeBadge
 } from '@vscode/webview-ui-toolkit/react'
+import React from 'react';
 
 import {
   ASSISTANT,

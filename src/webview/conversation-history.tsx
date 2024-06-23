@@ -3,6 +3,7 @@ import { Conversation } from '../common/types'
 import styles from './conversation-history.module.css'
 import { useConversationHistory } from './hooks'
 import { EVENT_NAME } from '../common/constants'
+import React from 'react';
 
 interface ConversationHistoryProps {
   onSelect: () => void

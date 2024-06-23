@@ -8,6 +8,7 @@ import { ASSISTANT, EVENT_NAME } from '../common/constants'
 import styles from './index.module.css'
 import { LanguageType, Theme, ThemeType } from '../common/types'
 import { getLanguageMatch } from './utils'
+import React from 'react';
 
 interface CodeBlockProps {
   className?: string

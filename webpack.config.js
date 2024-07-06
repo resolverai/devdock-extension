@@ -6,6 +6,7 @@
 
 const path = require('path')
 const NodePolyfillPlugin = require('node-polyfill-webpack-plugin')
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 //@ts-check
 /** @typedef {import('webpack').Configuration} WebpackConfig **/
@@ -25,26 +26,65 @@ const extensionConfig = {
     vscode: 'commonjs vscode',
   },
   resolve: {
-    extensions: ['.ts', '.tsx', '.js']
+    extensions: ['.ts', '.tsx', '.js', '.jsx']
   },
   module: {
     rules: [
       {
         test: /\.ts$/,
         exclude: /node_modules/,
-        use: [
-          {
-            loader: 'ts-loader'
-          }
-        ]
+        use: {
+          loader: 'ts-loader',
+          options: {
+            transpileOnly: true,
+          },
+        },
       },
       {
         test: /\.hbs$/,
         exclude: /(node_modules)/,
         loader: 'handlebars-loader'
+      },
+      {
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          {
+            loader: 'typings-for-css-modules-loader',
+            options: {
+              modules: true,
+              namedExport: true,
+            }
+          },
+          'css-loader'
+        ]
       }
     ]
   },
+  plugins: [
+    new ForkTsCheckerWebpackPlugin({
+      async: false,
+      // typescript: {
+      //   configOverwrite: {
+      //     exclude: ["node_modules/viem", "node_modules/@zerodev/sdk"]
+      //   }
+      // }
+      typescript: {
+        diagnosticOptions: {
+          semantic: true,
+          syntactic: true,
+        },
+      },
+      issue: {
+        exclude: [
+          { file: '**/node_modules/**' },
+          { code: 'TS4113' }, // ';' expected
+          { code: 'TS1128' }, // Declaration or statement expected
+          { code: 'TS2493' }  // Tuple type '[]' of length '0' has no element at index '0'
+        ],
+      },
+    }),
+  ],
   devtool: 'nosources-source-map',
   infrastructureLogging: {
     level: 'log'

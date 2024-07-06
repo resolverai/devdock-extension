@@ -1,8 +1,8 @@
 {
 	"compilerOptions": {
 		"module": "commonjs",
-		"target": "ES2020",
-		"lib": ["es6", "dom"],
+		"target": "ES2022",
+		"lib": ["es6", "dom", "ES2022"],
     	"jsx": "react",
 		"sourceMap": true,
 		"rootDir": "src",
@@ -10,7 +10,11 @@
 		"noImplicitReturns": true,
 		"noFallthroughCasesInSwitch": true,
 		"noUnusedParameters": true,
-    	"esModuleInterop": true
+		// "noImplicitAny": false,
+    	"esModuleInterop": true,
+		// "suppressImplicitAnyIndexErrors": true,
+		// "ignoreDeprecations": "5.0",
+		// "skipLibCheck": true,
 	},
-  "exclude": ["node_modules", ".vscode-test"]
+  	"exclude": ["node_modules", ".vscode-test", "node_modules/viem", "node_modules/@zerodev/sdk"]
 }

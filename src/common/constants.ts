@@ -74,6 +74,7 @@ export const DEVDOCK_COMMAND_NAME = {
   manageProviders: 'devdock.manageProviders',
   githubLogin: 'devdock.githubLogin',
   githubConnect: 'devdock.githubConnect',
+  listenTerminal: 'devdock.listenTerminal',
   manageTemplates: 'devdock.manageTemplates',
   newChat: 'devdock.newChat',
   openChat: 'devdock.openChat',

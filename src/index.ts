@@ -9,6 +9,8 @@ import {
 import * as path from 'path'
 import * as os from 'os'
 import * as vscode from 'vscode'
+import { Utils } from 'vscode-uri'
+import * as fs from 'fs';
 
 import { CompletionProvider } from './extension/providers/completion'
 import { SidebarProvider } from './extension/providers/sidebar'
@@ -29,7 +31,7 @@ import { TemplateProvider } from './extension/template-provider'
 import { ServerMessage } from './common/types'
 import { FileInteractionCache } from './extension/file-interaction'
 import { getLineBreakCount } from './webview/utils'
-import { auth0Config, socialLogin, handleAuthentication } from './common/auth'
+import { auth0Config, socialLogin, handleAuthentication, initWeb3Auth } from './common/auth'
 
 export async function activate(context: ExtensionContext) {
   setContext(context)
@@ -49,6 +51,55 @@ export async function activate(context: ExtensionContext) {
 
   templateProvider.init()
 
+  let terminal: vscode.Terminal | undefined;
+
+  function createAndShowTerminal() {
+    const workspaceFolder = vscode.workspace.workspaceFolders?.[0].uri.fsPath;
+    if (!workspaceFolder) {
+      vscode.window.showErrorMessage('No workspace folder open.');
+      return;
+    }
+
+    if (terminal) {
+      terminal.dispose();
+    }
+
+    const terminalOptions: vscode.TerminalOptions = {
+      name: 'Devdock Terminal',
+      cwd: workspaceFolder,
+    };
+
+    terminal = vscode.window.createTerminal(terminalOptions);
+    const shellScript = Utils.joinPath(
+      context.extensionUri,
+      'wrapper.sh'
+    )
+    
+    terminal.sendText(`sh ${shellScript.fsPath}`);
+    terminal.show();
+    
+    const watcher = vscode.workspace.createFileSystemWatcher(new vscode.RelativePattern(workspaceFolder, 'command_output.log'));
+    watcher.onDidChange(uri => {
+      vscode.workspace.openTextDocument(uri).then(() => {
+        const lastLine = readLastLine(path.join(workspaceFolder, 'command_output.log'));
+        vscode.window.showInformationMessage(`Terminal output: ${lastLine}`);
+        if (lastLine?.toString() == "0") vscode.window.showInformationMessage("You've Earned 10 DEV Tokens", {modal: true})
+        //const content = doc.getText();
+          
+      
+      });
+    });
+    context.subscriptions.push(watcher);
+  }
+
+  createAndShowTerminal();
+
+  function readLastLine(filePath: string): string | undefined {
+    const fileContent = fs.readFileSync(filePath, 'utf-8');
+    const lines = fileContent.trim().split('\n');
+    return lines.length > 0 ? lines[lines.length - 1] : undefined;
+  }
+
   context.subscriptions.push(
     languages.registerInlineCompletionItemProvider(
       { pattern: '**' },
@@ -56,9 +107,14 @@ export async function activate(context: ExtensionContext) {
     ),
     commands.registerCommand(DEVDOCK_COMMAND_NAME.enable, () => {
       statusBar.show()
+      createAndShowTerminal()
     }),
     commands.registerCommand(DEVDOCK_COMMAND_NAME.disable, () => {
       statusBar.hide()
+      if (terminal) {
+        terminal.dispose();
+        terminal = undefined;
+      }
     }),
     commands.registerCommand(DEVDOCK_COMMAND_NAME.explain, () => {
       commands.executeCommand(DEVDOCK_COMMAND_NAME.focusSidebar)
@@ -218,8 +274,18 @@ export async function activate(context: ExtensionContext) {
       } as ServerMessage<string>)
 
     }),
-    commands.registerCommand(DEVDOCK_COMMAND_NAME.githubConnect, () => {
-      socialLogin();
+    commands.registerCommand(DEVDOCK_COMMAND_NAME.githubConnect, async () => {
+      // const web3Auth = initWeb3Auth();
+      // await web3Auth?.initModal();
+      socialLogin(context);
+    }),
+
+    /**
+     * Creates a custom terminal. Wraps a shell script around this terminal
+     * This script will now listen to any command fired while using the terminal
+     */
+    commands.registerCommand(DEVDOCK_COMMAND_NAME.listenTerminal, () => {
+      createAndShowTerminal();
     }),
 
     window.registerWebviewViewProvider('devdock.sidebar', sidebarProvider),

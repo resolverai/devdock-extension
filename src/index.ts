@@ -32,6 +32,8 @@ import { ServerMessage } from './common/types'
 import { FileInteractionCache } from './extension/file-interaction'
 import { getLineBreakCount } from './webview/utils'
 import { auth0Config, socialLogin, handleAuthentication, initWeb3Auth } from './common/auth'
+import { assignReward } from './common/viem'
+import { fetchWithStream } from './common/ai-agent'
 
 export async function activate(context: ExtensionContext) {
   setContext(context)
@@ -83,7 +85,11 @@ export async function activate(context: ExtensionContext) {
       vscode.workspace.openTextDocument(uri).then(() => {
         const lastLine = readLastLine(path.join(workspaceFolder, 'command_output.log'));
         vscode.window.showInformationMessage(`Terminal output: ${lastLine}`);
-        if (lastLine?.toString() == "0") vscode.window.showInformationMessage("You've Earned 10 DEV Tokens", {modal: true})
+        if (lastLine?.toString() == "0"){
+          fetchWithStream("How to deploy a NFT SmartContract on Starknet")
+          assignReward("0x741267166ff2a1721f140B819B6f844F8C7D8d74", 10)
+          vscode.window.showInformationMessage("You've Earned 10 DEV Tokens", {modal: true})
+        }
         //const content = doc.getText();
           
       

@@ -184,12 +184,37 @@ const createZeroDevWallet = async () => {
     'assets',
     'testfile.txt'
   )
+
+  const testfileURIBack = Utils.joinPath(
+    extensionContext.extensionUri,
+    'assets',
+    'testfile2.txt'
+  )
+  
   const file = await NHFile.fromFilePath(testfileURI.fsPath);
+  const [tree, err] = await file.merkleTree();
+  let rootHash: string
+  if (err === null) {
+    console.log("File Root Hash: ", tree?.rootHash());
+    rootHash = tree?.rootHash() || ''
+  }
   const nhRpc = 'https://rpc-storage-testnet.0g.ai';
   const nhProvider = new NHProvider(nhRpc);
 
-  await nhProvider.uploadFile(file).then(() => {
+  await nhProvider.uploadFile(file).then(async () => {
     console.log("File successfully dumped in 0g testnet");
+    await nhProvider.downloadFile(rootHash, testfileURIBack.fsPath, false).then(() => {
+      fs.readFile(testfileURIBack.fsPath, 'utf8', (err, data) => {
+        if (err) {
+            console.error(`Error reading file: ${err}`);
+            return;
+        }
+        console.log(data);
+    });
+      console.log("Successfilly downloaded file from 0g");
+    }).catch((error) => {
+      console.log("Error downloading file from 0g.. ", error)
+    });
   }).catch((error) => {
     console.log("Error submitting file to 0g testnet: ", error);
   });

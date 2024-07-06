@@ -8783,10 +8783,9 @@ yocto-queue@^0.1.0:
   resolved "https://registry.yarnpkg.com/yocto-queue/-/yocto-queue-0.1.0.tgz#0294eb3dee05028d31ee1a5fa2c556a6aaf10a1b"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
 
-zerog-da-sdk@^0.2.2:
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/zerog-da-sdk/-/zerog-da-sdk-0.2.2.tgz#df2f321663073f47807595bdf7b6c9bd50131b0c"
-  integrity sha512-gbBD9BjHkx7uCvBfM++8rhv7o1ooQOtxHh4tnlpkCCsa0HmzkSSQ3vTjI38xvTR87CMfLRKWU7u1pfsG29MUAA==
+"zerog-da-sdk@https://github.com/0glabs/0g-ts-sdk.git":
+  version "0.1.0"
+  resolved "https://github.com/0glabs/0g-ts-sdk.git#cba64e25d1791edf2c82b1ad9987d736f64225a6"
   dependencies:
     "@ethersproject/bytes" "^5.7.0"
     "@ethersproject/keccak256" "^5.7.0"

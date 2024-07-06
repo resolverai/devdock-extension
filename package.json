@@ -492,6 +492,6 @@
     "viem": "^2.16.5",
     "vscode-uri": "^3.0.8",
     "web3": "^4.10.0",
-    "zerog-da-sdk": "^0.2.2"
+    "zerog-da-sdk": "https://github.com/0glabs/0g-ts-sdk.git"
   }
 }

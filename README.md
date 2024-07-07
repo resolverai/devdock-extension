@@ -4,7 +4,7 @@ Welcome to **Devdock**, a revolutionary co-pilot VS Code extension designed to e
 
 ## Overview
 
-Devdock is an AI-powered extension for the VS Code workspace, tailored for the Starknet ecosystem. It offers the following functionalities:
+Devdock is an AI-powered extension for the VS Code workspace, . It offers the following functionalities:
 
 1. **Token Rewards**: Earn crypto tokens for every successful deployment.
 2. **Personalized AI Model**: Fine-tune a model with your code data and retain ownership.
@@ -18,7 +18,7 @@ Devdock is an AI-powered extension for the VS Code workspace, tailored for the S
 
 ### Unique Proposition
 
-Devdock is the first-of-its-kind "code to earn" AI-powered VS Code extension, specifically designed for the Starknet ecosystem. It simplifies contract deployment, integrates seamlessly with your workflow, and pays you for your successful deployments.
+Devdock is the first-of-its-kind "code to earn" AI-powered VS Code extension. It simplifies contract deployment, integrates seamlessly with your workflow, and pays you for your successful deployments.
 
 ## Features
 
@@ -26,7 +26,7 @@ Devdock is the first-of-its-kind "code to earn" AI-powered VS Code extension, sp
 2. **Integrated Development Environment**: Operates within the VS Code workspace, monitoring terminal activity and file changes.
 3. **Real-Time Updates**: Tracks successful deployments, logs code content and errors to the database.
 4. **Model Improvement**: Utilizes deployment data to fine-tune models, enhancing the learning curve for new developers.
-5. **STARK Token Rewards**: Automatically allocates tokens via the smart contract's "assign" function post-deployment.
+5. **DEVDOCK Token Rewards**: Automatically allocates tokens via the smart contract's "assign" function post-deployment.
 6. **Token Management**: Developers can view and claim their earned tokens through Devdock's platform.
 
 ## Getting Started
@@ -94,8 +94,8 @@ Devdock not only simplifies the development process but also rewards you for you
   |  OpenAI              |         | Ollama API/Codestral   |        |   Web3 OAuth           |
   |                      |         |                        |        |                        |
   +----------+-----------+         +-----------+------------+        +------------+-----------+
-             |                                   |                                  |
-  +----------v-----------+         +-------------v----------+        +-------------v----------+
+             |                                 |                                  |
+  +----------v-----------+         +-----------v------------+        +------------v-----------+
   |                      |         |                        |        |                        |
   |  Backend Devdock API |         |   Backend Devdock API  |        |   GitHub Login         |
   |                      |         |                        |        |                        |
@@ -104,24 +104,24 @@ Devdock not only simplifies the development process but also rewards you for you
                                                                                   |
                                                                           +-------v--------+
                                                                           |                |
-                                                                          | Starknet Wallet|
+                                                                          |     Wallet     |
                                                                           |     Connect    |
                                                                           |                |
                                                                           +-------+--------+
                                                                                   |
                                                                                   |
-  +---------------------+                                                        |
-  |                     |                                                        |
-  |  Terminal Output    +--------------------------------------------------------+
-  |   Monitoring        |                                                        |
-  +---------------------+                                                        |
+  +---------------------+                                                         |
+  |                     |                                                         |
+  |  Terminal Output    +---------------------------------------------------------+
+  |   Monitoring        |                                                         |
+  +---------------------+                                                         |
                                                                                   |
                                                                                   |
-  +---------------------+                                                        |
-  |                     |                                                        |
-  |   Data Logging      |                                                        |
-  |                     |                                                        |
-  +---------------------+                                                        |
+  +---------------------+                                                         |
+  |                     |                                                         |
+  |   Data Logging      |                                                         |
+  |                     |                                                         |
+  +---------------------+                                                         |
                                                                                   |
                                                                                   |
                                                                           +-------v--------+
@@ -132,9 +132,9 @@ Devdock not only simplifies the development process but also rewards you for you
                                                                           +-------+--------+
                                                                                   |
                                                                                   |
-  +---------------------+                                                        |
-  |                     |                                                        |
-  | Trainer Wallet Addr +--------------------------------------------------------+
+  +---------------------+                                                         |
+  |                     |                                                         |
+  | Trainer Wallet Addr +---------------------------------------------------------+
   |                     |
   +---------------------+
             |
@@ -159,6 +159,6 @@ Devdock not only simplifies the development process but also rewards you for you
             |
   +---------v----------+
   |                    |
-  |  STARK Tokens      |
+  |  DEV Tokens      |
   |                    |
   +--------------------+

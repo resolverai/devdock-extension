@@ -14,7 +14,7 @@ Devdock is an AI-powered extension for the VS Code workspace, . It offers the fo
 
 - **LLM Connectivity**: Connect to both hosted and local Large Language Models (LLMs).
 - **Advanced Co-Pilot**: Beyond chat support, it offers in-depth solutions to development questions.
-- **Earn Crypto**: Gain STARK tokens for successful contract deployments, declarations, and compilations.
+- **Earn Crypto**: Gain DEV tokens for successful contract deployments, declarations, and compilations.
 
 ### Unique Proposition
 
@@ -70,7 +70,7 @@ Here's a brief overview of how Devdock operates:
 
 ## Conclusion
 
-Devdock not only simplifies the development process but also rewards you for your efforts, making it a valuable tool for developers in the Starknet ecosystem. Let the AI handle the heavy lifting while you focus on designing state-of-the-art contracts and architectures. Happy coding and earning!
+Devdock not only simplifies the development process but also rewards you for your efforts, making it a valuable tool for web3 developers. Let the AI handle the heavy lifting while you focus on designing state-of-the-art contracts and architectures. Happy coding and earning!
 
 
                                     +--------------------+

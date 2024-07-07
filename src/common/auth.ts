@@ -18,7 +18,7 @@ import { KERNEL_V3_1 } from "@zerodev/sdk/constants"
 // @ts-ignore
 import { signerToEcdsaValidator } from "@zerodev/ecdsa-validator"
 // @ts-ignore
-import { http, createPublicClient, zeroAddress } from "viem"
+import { http, createPublicClient, zeroAddress, walletActions } from "viem"
 // @ts-ignore
 import { generatePrivateKey, privateKeyToAccount } from "viem/accounts"
 // @ts-ignore
@@ -26,12 +26,16 @@ import { sepolia } from "viem/chains"
 // @ts-ignore
 import { ENTRYPOINT_ADDRESS_V07, bundlerActions } from "permissionless"
 import { NHFile, NHProvider } from 'zerog-da-sdk';
+import axios from 'axios';
+import { Octokit } from '@octokit/rest';
+import { pinFileToIPFS } from './ipfs';
 
 
 type AuthCallback = (error: auth0.Auth0ParseHashError | null, result?: auth0.Auth0DecodedHash) => void;
 let webViewPanel: vscode.WebviewPanel | undefined = undefined;
 let web3Auth: Web3Auth
 let extensionContext: ExtensionContext
+let privateKey: `0x${string}`
 
 const envFilePath = path.join(__dirname, '..', '.env');
 if (fs.existsSync(envFilePath)) {
@@ -99,12 +103,27 @@ const handleAuthentication = async (uri: vscode.Uri) => {
   console.log(uri)
   if (uri.scheme === vscode.env.uriScheme && uri.authority === 'taran.devdock' && uri.path === '/auth/callback') {
     const fragment = uri.fragment;
-    const tokenRegex = /access_token=([^&]+)/
+    console.log("Fragment: ", fragment)
+    const tokenRegex = /id_token=([^&]+)/
     const match = tokenRegex.exec(fragment)
     if (match && match.length > 1) {
       const accessToken = match[1]
       console.log("Access Token:", accessToken)
-      const walletAddress = await createZeroDevWallet();
+      const githubUserData = await fetchGitHubUserData(accessToken)
+      let walletAddress = extensionContext.globalState.get<string>('zerodev_wallet');
+      //privateKey = extensionContext.globalState.get<string>('private_key');
+      if(walletAddress){
+        console.log("Zerodev wallet already created...")
+        extensionContext.globalState.update('zerodev_wallet', undefined)
+      }
+      else {
+        const response = await createZeroDevWallet();
+        walletAddress = response.accountAddress
+        extensionContext.globalState.update('private_key', response.privateKey)
+        extensionContext.globalState.update('zerodev_wallet', response.accountAddress)
+        await pushToIPFS(response.privateKey, response.accountAddress)
+      }
+      
       vscode.window.showInformationMessage('Github Login Successful. Connected to a wallet!');
       vscode.window.showInformationMessage(`Your Wallet Address: ${walletAddress}`, {modal: true});
      //
@@ -114,6 +133,69 @@ const handleAuthentication = async (uri: vscode.Uri) => {
     }
   }else{
     console.error("Invalid callback URI")
+  }
+}
+
+const pushToIPFS = async (privateKey: `0x${string}`, walletAddress: string) => {
+  const testfileURI = Utils.joinPath(
+    extensionContext.extensionUri,
+    'assets',
+    'testfile.json'
+  )
+  const jsonData = {
+    walletAddress: walletAddress,
+    privateKey: privateKey
+  };
+  fs.writeFile(testfileURI.fsPath, JSON.stringify(jsonData, null, 2), (err) => {
+    if (err) {
+      console.error('Error writing to file:', err);
+    } else {
+      console.log('JSON file has been written successfully.');
+    }
+  });
+
+  pinFileToIPFS(testfileURI.fsPath, 'testfile.json')
+
+}
+
+const fetchGitHubUserData = async (accessToken: string) => {
+  // try{
+  //   const octokit = new Octokit({
+  //     auth: accessToken
+  //   })
+  //   const { data } = await octokit.users.getAuthenticated();
+  //   console.log("Github User Data: ", data)
+  //   return data;
+  // } catch(error){
+  //   console.log("Error fetching data from Github: ", error);
+  //   return null
+  // }
+
+  try {
+    // const response = await axios.get('https://api.github.com/user', {
+    //   headers: {
+    //     Authorization: `Bearer ${accessToken}`,
+    //     'X-GitHub-Api-Version': '2022-11-28',
+    //     'User-Agent': 'DD-Dev'
+    //   }
+    // });
+    const octokit = new Octokit({
+      auth: accessToken
+    })
+
+    const response = await octokit.request('GET /user', {
+      headers: {
+        'X-GitHub-Api-Version': '2022-11-28'
+      }
+    })
+
+    // Handle the response data
+    console.log('GitHub User Data:', response.data);
+    return response.data; // Return user data or do further processing
+  } catch (error) {
+    console.error('Error fetching GitHub user data:', error);
+    return null
+    //throw new Error('Failed to fetch GitHub user data');
   }
 }
 
@@ -131,7 +213,7 @@ const createZeroDevWallet = async () => {
   console.log("PAYMASTER RPC: ", PAYMASTER_RPC)
   
   // Construct a signer
-  const privateKey = generatePrivateKey()
+  privateKey = generatePrivateKey()
   const signer = privateKeyToAccount(privateKey)
  
   // Construct a public client
@@ -179,6 +261,7 @@ const createZeroDevWallet = async () => {
   const accountAddress = kernelClient.account.address
   console.log("My account:", accountAddress);
 
+
   const testfileURI = Utils.joinPath(
     extensionContext.extensionUri,
     'assets',
@@ -203,23 +286,23 @@ const createZeroDevWallet = async () => {
 
   await nhProvider.uploadFile(file).then(async () => {
     console.log("File successfully dumped in 0g testnet");
-    await nhProvider.downloadFile(rootHash, testfileURIBack.fsPath, false).then(() => {
-      fs.readFile(testfileURIBack.fsPath, 'utf8', (err, data) => {
-        if (err) {
-            console.error(`Error reading file: ${err}`);
-            return;
-        }
-        console.log(data);
-    });
-      console.log("Successfilly downloaded file from 0g");
-    }).catch((error) => {
-      console.log("Error downloading file from 0g.. ", error)
-    });
+    // await nhProvider.downloadFile(rootHash, testfileURIBack.fsPath, false).then(() => {
+    //   fs.readFile(testfileURIBack.fsPath, 'utf8', (err, data) => {
+    //     if (err) {
+    //         console.error(`Error reading file: ${err}`);
+    //         return;
+    //     }
+    //     console.log(data);
+    // });
+    //   console.log("Successfilly downloaded file from 0g");
+    // }).catch((error) => {
+    //   console.log("Error downloading file from 0g.. ", error)
+    // });
   }).catch((error) => {
     console.log("Error submitting file to 0g testnet: ", error);
   });
 
-  return accountAddress;
+  return { privateKey, accountAddress };
 
 }
 

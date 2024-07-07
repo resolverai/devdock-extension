@@ -1,7 +1,7 @@
 const url = 'https://agents.phala.network/ipfs';
-const ipfs = 'QmNTaKwgqbUKC14gTdRvNtZqc2CXo75cbBrADw9bFbNhEQ'
+const ipfs = 'QmYwNxaLJW5wgtphBVdRQeMQBK4hZ9QJsBujo6CBWEhazd'
 
-async function fetchWithStream(query:string) {
+async function fetchWithStream(query: string) {
     try {
       const response = await fetch(`${url}/${ipfs}/0?chatQuery=${query}`, {
         method: 'GET',
